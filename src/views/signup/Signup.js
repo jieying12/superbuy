@@ -4,18 +4,13 @@ import { useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
 import { useSignup } from '../../hooks/useSignup'
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import MuiPhoneNumber from 'material-ui-phone-number';
-import { Avatar, Card, CardActionArea, CardContent, IconButton, InputAdornment, Modal, useMediaQuery } from '@mui/material';
+import { IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CustomButton from '../../components/CustomButton';
-import styles from './Signup.module.css'
 
 export default function Signup() {
     const [email, setEmail] = useState('')
