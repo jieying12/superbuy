@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { db } from "../../firebase/firebase-config"
 
 import { Heading } from "../../components/Heading"
-import GroupbuyListings from './GroupbuyListings'
+import GroupbuyListings from '../../components/GroupbuyListings'
 
 export default function GroubuySection() {
   const { user } = useAuthContext()

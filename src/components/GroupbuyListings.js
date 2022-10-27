@@ -18,10 +18,9 @@ export default function GroupbuyListings({ groupbuys }) {
         {groupbuys.map((gb) => (
           <div className='box' key={gb.id}>
             <div className='img'>
-              {/* <Link to={`/cart/${items.id}`}>
-                <img src={items.cover} alt='' />
-              </Link>*/}
-              <img src={gb.urls[0]} alt='' />
+              <Link to={`/groupbuys/${gb.id}`}>
+                <img src={gb.urls[0]} alt='' />
+              </Link>
               <div className='overlay'>
                 <button className='button' >
                   <FiShoppingBag />
