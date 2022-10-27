@@ -4,13 +4,13 @@ import 'firebase/auth'
 import 'firebase/storage'
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCBa_qqhLkDMyKHQGhMd7fCGf0ludhEZn4",
-    authDomain: "superbuy-7e36a.firebaseapp.com",
-    projectId: "superbuy-7e36a",
-    storageBucket: "superbuy-7e36a.appspot.com",
-    messagingSenderId: "409251068249",
-    appId: "1:409251068249:web:9a49be232e1a87ffacf448"
-  };
+  apiKey: "AIzaSyB2LSZLV6rRzFcgudxh0C3XYjHUQF0XECg",
+  authDomain: "super-buy-9f485.firebaseapp.com",
+  projectId: "super-buy-9f485",
+  storageBucket: "super-buy-9f485.appspot.com",
+  messagingSenderId: "589973684992",
+  appId: "1:589973684992:web:cc8b7300d13175ca3ca9e5"
+};
 
   // initialize firebase
 firebase.initializeApp(firebaseConfig)

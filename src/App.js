@@ -18,7 +18,7 @@ function App() {
       {authIsReady && (
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<Homepage />}/>
+            <Route path="/" element={user ? <Homepage /> : <Navigate to="/login" /> }/>
             <Route path="/createGroupbuy" element={<CreateGroupbuyForm />}/>
             <Route path="/login" element={user ? <Navigate to="/" /> : <Login />}/>
             <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />}/>
