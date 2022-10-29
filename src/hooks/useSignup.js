@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 import { auth } from '../firebase/firebase-config'
 import { useAuthContext } from './useAuthContext'
 
+import { db, timestamp } from "../firebase/firebase-config"
+
 export const useSignup = () => {
   const [isCancelled, setIsCancelled] = useState(false)
   const [error, setError] = useState(null)
@@ -20,6 +22,20 @@ export const useSignup = () => {
       }
 
       await res.user.updateProfile({ username })
+      //create user on firestore
+      const userRef = db.collection('users').doc(res.user.uid)
+      const addedUser = await userRef.set(
+        {
+          uid: res.user.uid,
+          displayName: username,
+          email,
+          photoURL: '',
+          createdAt: timestamp.fromDate(new Date())
+        });
+
+      //create empty user chats on firestore
+      const chatRef = db.collection('userChats').doc(res.user.uid)
+      const addedChat = await chatRef.set({});
 
       dispatch({ type: 'LOGIN', data: res.user })
 
