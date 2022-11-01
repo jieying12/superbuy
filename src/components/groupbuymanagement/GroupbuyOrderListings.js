@@ -2,7 +2,7 @@ import React from "react"
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useEffect, useState } from "react"
 import { db } from "../../firebase/firebase-config"
-
+import Button from '@mui/material/Button';
 import { DataGrid, GridToolbar} from '@mui/x-data-grid';
 
 const groupBuyColumns = [
@@ -10,6 +10,7 @@ const groupBuyColumns = [
   { field: 'title', headerName: 'Group Buy Name', width: 200 },
   { field: 'startDate', headerName: 'Start Date', width: 200 },
   { field: 'endDate', headerName: 'End Date', width: 200 },
+  { field: 'status', headerName: 'Status', width: 200 },
 ]
 const columns = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -66,6 +67,7 @@ export default function GroupbuyOrderListings() {
       for (let i = 0; i < results.length; i++) {
         rowObj["id"] = i + 1
         rowObj["title"] = results[i]["title"]
+        rowObj["status"] = "Ongoing"
         rowObj["startDate"] = new Date(results[i]["createdAt"]["seconds"] * 1000)
         rowObj["endDate"] = new Date(results[i]["deadline"]["seconds"] * 1000)
         groupbuyRow.push(rowObj)
@@ -93,6 +95,16 @@ export default function GroupbuyOrderListings() {
           rowsPerPageOptions={[5]}
           checkboxSelection
           components={{ Toolbar: GridToolbar }} 
+          sx={{
+            boxShadow: 2,
+            border: 2,
+            borderColor: 'primary.light',
+            alignItems: 'center',
+            justifyContent: 'center',
+            '& .MuiDataGrid-cell:hover': {
+              color: 'primary.main',
+            },
+          }}
         />
       </div>
     </>
