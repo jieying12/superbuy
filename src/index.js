@@ -14,7 +14,7 @@ const theme = createTheme({
       veryLight: '#FFFFFF',
     },
     secondary: {//dark green
-      main: '#5EC992',
+      main: '#00ac4f',
       light: '#ADD8B2',
       veryLight: '#EDF6EE'
     },
