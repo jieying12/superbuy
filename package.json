@@ -25,10 +25,7 @@
     "material-ui-phone-number": "^3.0.0",
     "moment": "^2.29.4",
     "react": "^17.0.2",
-<<<<<<< HEAD
-=======
     "react-countdown": "^2.3.3",
->>>>>>> 14cc206d1b5d85c94a0107960515cfa8df2512fc
     "react-dom": "^17.0.2",
     "react-icons": "^4.4.0",
     "react-redux": "^8.0.2",

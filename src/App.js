@@ -9,13 +9,10 @@ import GroupbuyDetails from './views/groupbuy/GroupbuyDetails'
 import ChatScreen from './views/chat/ChatScreen'
 import Login from './views/login/Login'
 import Signup from './views/signup/Signup'
-<<<<<<< HEAD
 import Profile from './views/profile/Profile'
 
-=======
 import GroupbuyManagement from './views/groupbuymanagement/GroupbuyManagement'
 import GroupbuyOrderListing from './views/groupbuymanagement/GroupbuyOrderListing'
->>>>>>> 14cc206d1b5d85c94a0107960515cfa8df2512fc
 import './style/main.scss'
 
 function App() {
@@ -35,13 +32,10 @@ function App() {
             <Route path="/chat" element={<ChatScreen />}/>
             <Route path="/login" element={user ? <Navigate to="/" /> : <Login />}/>
             <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />}/>
-<<<<<<< HEAD
             <Route path="/profile" element={<Profile/>}/>
-=======
             <Route path="/order" element={typeof(user)==='undefined'  ? <Navigate to="/login" /> : <GroupbuyManagement />}/>
             <Route path="/order/:id" element={<GroupbuyOrderListing />}/>
             {/* <Route path="/order" element={<GroupbuyManagement />}/> */}
->>>>>>> 14cc206d1b5d85c94a0107960515cfa8df2512fc
           </Routes>
         </BrowserRouter>
       )}
