@@ -63,7 +63,6 @@ export default function Signup() {
                         label="Username"
                         name="username"
                         autoComplete="username"
-                        autoFocus
                         color="secondary"
                         onChange={(e) => setUsername(e.target.value)}
                         value={username}
