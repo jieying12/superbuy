@@ -9,12 +9,13 @@ import GroupbuyDetails from './views/groupbuy/GroupbuyDetails'
 import ChatScreen from './views/chat/ChatScreen'
 import Login from './views/login/Login'
 import Signup from './views/signup/Signup'
-
+import GroupbuyManagement from './views/groupbuymanagement/GroupbuyManagement'
+import GroupbuyOrderListing from './views/groupbuymanagement/GroupbuyOrderListing'
 import './style/main.scss'
 
 function App() {
   const { authIsReady, user } = useAuthContext()
-
+  console.log(user)
   return (
     <div className="App">
       {authIsReady && (
@@ -29,6 +30,9 @@ function App() {
             <Route path="/chat" element={<ChatScreen />}/>
             <Route path="/login" element={user ? <Navigate to="/" /> : <Login />}/>
             <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />}/>
+            <Route path="/order" element={typeof(user)==='undefined'  ? <Navigate to="/login" /> : <GroupbuyManagement />}/>
+            <Route path="/order/:id" element={<GroupbuyOrderListing />}/>
+            {/* <Route path="/order" element={<GroupbuyManagement />}/> */}
           </Routes>
         </BrowserRouter>
       )}
