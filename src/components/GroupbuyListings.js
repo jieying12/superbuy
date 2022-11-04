@@ -32,7 +32,38 @@ export default function GroupbuyListings({ groupbuys }) {
         {groupbuys.map((gb) => (
           <div className='box' key={gb.id}>
             <div className='createdBy' style={{ display: "flex", marginBottom: "5px" }}>
-              <img src="https://biographymask.com/wp-content/uploads/2019/12/Kennedy-Claire-Walsh-1200x1200.jpg" style={{ borderRadius: "50%", width: "30px" }} />
+              {gb.createdBy.displayName == "Annette Block" ?
+                <img src="https://preview.redd.it/vt8dqyl3rr891.jpg?width=640&crop=smart&auto=webp&s=aab8e036d3ddddb54824f0274851bd136fd35ec5" style={{ borderRadius: "50%", width: "30px" }} />
+                : null
+              }
+              {gb.createdBy.displayName == "Kennedy Walsh" ?
+                <img src="https://biographymask.com/wp-content/uploads/2019/12/Kennedy-Claire-Walsh-1200x1200.jpg" style={{ borderRadius: "50%", width: "30px" }} />
+                : null
+              }
+              {gb.createdBy.displayName == "Loretta Thompson" ?
+                <img src="https://yt3.ggpht.com/ytc/AMLnZu_R7OHlxhxQJxTSzhmEWim_rW-TdutJTDsFRnMi5A=s900-c-k-c0x00ffffff-no-rj" style={{ borderRadius: "50%", width: "30px" }} />
+                : null
+              }
+              {gb.createdBy.displayName == "Daisy Murray" ?
+                <img src="https://media1.popsugar-assets.com/files/thumbor/Iv8QJBArT2P5LPX-pL4v9Rjy2xw/877x0:4216x3339/fit-in/2048xorig/filters:format_auto-!!-:strip_icc-!!-/2019/08/21/839/n/1922564/4eb991e35d5d96c66a2353.98246159_/i/Claudia-Sulewski-Nordstrom-Collection-2019.jpg" style={{ borderRadius: "50%", width: "30px" }} />
+                : null
+              }
+              {gb.createdBy.displayName == "Kendall Jenkins" ?
+                <img src="https://hips.hearstapps.com/hmg-prod.s3.amazonaws.com/images/gettyimages-1340149118.jpg?crop=0.6666666666666666xw:1xh;center,top&resize=640:*" style={{ borderRadius: "50%", width: "30px" }} />
+                : null
+              }
+              {gb.createdBy.displayName == "Wanda Mendoza" ?
+                <img src="https://cdn.vox-cdn.com/thumbor/I80tbBk9Xze9rPFoPQA_qXhLFLg=/1400x1400/filters:format(jpeg)/cdn.vox-cdn.com/uploads/chorus_asset/file/22358071/ham1280_106_comp_v020_20210112_r709_bf65ee9c.jpeg" style={{ borderRadius: "50%", width: "30px" }} />
+                : null
+              }
+              {gb.createdBy.displayName == "Brandon Keech" ?
+                <img src="https://cms-assets.tutsplus.com/uploads/users/810/profiles/19338/profileImage/profile-square-extra-small.png" style={{ borderRadius: "50%", width: "30px" }} />
+                : null
+              }
+              {gb.createdBy.displayName == "Thomas Shelby" ?
+                <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxjb2xsZWN0aW9uLXBhZ2V8MXw3NjA4Mjc3NHx8ZW58MHx8fHw%3D&w=1000&q=80" style={{ borderRadius: "50%", width: "30px" }} />
+                : null
+              }
               &nbsp;&nbsp;&nbsp;
               <h5 style={{ paddingTop: "2px" }}>{gb.createdBy.displayName}</h5>
             </div>
@@ -54,10 +85,7 @@ export default function GroupbuyListings({ groupbuys }) {
             </div>
             <div className='details'>
               <h2>{gb.title}</h2>
-              {new Date(gb.deadline.seconds * 1000) > Date.now() ?
-                <h5 style={{ color: "#12b15b" }}>{Math.floor(Math.random() * gb.min)} / {gb.min} people joined</h5> :
-                <h5 style={{ color: "#12b15b" }}>{Math.floor(Math.random() * gb.min + 1)} / {gb.min} people joined</h5>
-              }
+              <h5 style={{ color: "#12b15b" }}>{Math.floor(Math.random() * gb.min)} / {gb.min} people joined</h5>
               <br />
             </div>
             <div className='secondRow' style={{ display: "flex", justifyContent: "space-between" }}>
@@ -65,7 +93,7 @@ export default function GroupbuyListings({ groupbuys }) {
                 &nbsp;&nbsp;&nbsp;
                 <Countdown date={new Date(gb.deadline.seconds * 1000).toString()} renderer={renderCountdown} />
               </div>
-              <div className='profiePictures' >
+              <div className='profilePictures' >
                 <img src="https://media1.popsugar-assets.com/files/thumbor/Y4xoOEuTx97XZOh3P4sakypY5B8/0x279:2000x2279/fit-in/1024x1024/filters:format_auto-!!-:strip_icc-!!-/2020/12/18/009/n/1922153/16d13f855fdd37ce4da135.92210954_/i/emma-chamberlain-beauty-habits-interview.jpg" style={{ borderRadius: "50%", width: "30px" }} />
                 <img src="https://pbs.twimg.com/profile_images/1504538399054589980/GZVQy57T_400x400.jpg" style={{ borderRadius: "50%", width: "30px" }} />
                 <img src="https://i.pinimg.com/originals/16/65/8f/16658f6ce7abb4e63bf86258ac0c3234.jpg" style={{ borderRadius: "50%", width: "30px" }} />
