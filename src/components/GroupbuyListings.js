@@ -89,7 +89,9 @@ export default function GroupbuyListings({ groupbuys }) {
                 <h5 style={{ color: "#12b15b" }}>Basket Value: ${Math.floor(Math.random() * gb.min)}</h5>
                 <h5 style={{ color: "#12b15b" }}>Basket Min: ${gb.min}</h5>
               </div>
-              <br />
+            </div>
+            <div className='basket_values' style={{ display: "flex", paddingTop: "8px", paddingBottom: "10px" }}>
+              <AiOutlineHeart /> <h6>&nbsp;{Math.floor(Math.random() * 40)} likes</h6>
             </div>
             <div className='secondRow' style={{ display: "flex", justifyContent: "space-between" }}>
               <div className='countdown' style={{ color: "#5539a8", backgroundColor: "#e8ecef", width: "130px", height: "25px", borderRadius: "10px" }} >
