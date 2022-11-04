@@ -44,11 +44,11 @@ export default function ContactCard({chat,user,handleClick,handleClickGroup}) {
             {chat && <Typography variant = 'subtitle2' sx ={{paddingTop : '7px'}}>
                 {moment(chat.date).isSame(moment(new Date()).subtract(1,'days'), 'day') 
                 ? "Yesterday" 
-                : (moment(chat[1].date).isSame(new Date(), 'day') 
-                ? moment(chat[1].date).format("hh:mm")
-                : (moment(chat[1].date).isSame(new Date(), 'week') 
-                    ? moment(chat[1].date).format("ddd") 
-                    : moment(chat[1].date).format("DD/MM/YY")
+                : (moment(chat.date).isSame(new Date(), 'day') 
+                ? moment(chat.date).format("hh:mm")
+                : (moment(chat.date).isSame(new Date(), 'week') 
+                    ? moment(chat.date).format("ddd") 
+                    : moment(chat.date).format("DD/MM/YY")
                     ))
                 }
             </Typography>

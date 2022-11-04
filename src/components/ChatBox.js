@@ -214,7 +214,7 @@ export default function ChatBox({ messages, otherUser, loading = true }) {
                                 messages={[message]}
                                 text={[message.text]}
                                 images={message?.img ? message.img : null}
-                                timestamp={moment(message.date).format("hh:mm")}
+                                timestamp={moment(new Date(message.date.seconds * 1000)).format("hh:mm")}
                                 isRequest = {message.isRequest}
                                 isAcceptance = {message.isAcceptance}
                                 isLast={messages.length - 1 === idx && !loading}
@@ -274,7 +274,6 @@ export default function ChatBox({ messages, otherUser, loading = true }) {
                     </label>
                 </Grid> : <Grid item xs={1} className={styles.iconContainer} sx={{paddingBottom : 1}}><CircularProgress color="secondary" size = {20}/></Grid>}
             </Grid>
-            {<Grid item xs={1}/>}
             <div ref={pickerRef} onKeyDown={handleOnKeyDown}>
                 {isPickerVisible && <Picker
                     pickerStyle={{ width: '100%' }}

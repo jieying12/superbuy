@@ -93,12 +93,12 @@ export default function Chats() {
   return (
     !isPending && user?.uid ? <Box className = {styles.root} id = 'chatScreenRoot'>
       {Object.entries(chats).length > 0 ?
-      <Grid container columns = {14} id = 'chatScreenGridContainer' md = {{height : '100%'}}>
-        <Grid item md = {4} id = 'contactsContainer'>
+      <Grid container columns = {14} id = 'chatScreenGridContainer' sx = {{height : '100vh'}}>
+        <Grid item xs = {14} md = {4} id = 'contactsContainer'>
           <List
               subheader={
                 <Box>
-                <ListSubheader sx = {{display : 'flex', justifyContent : 'space-between', flexGrow : 1,fontWeight : 600, fontSize : '1.5em', color : "black", backgroundColor: 'transparent', paddingTop: '0px'}}>
+                <ListSubheader sx = {{display : 'flex', justifyContent : 'space-between', flexGrow : 1,fontWeight : 600, fontSize : '1.3em', color : "black", backgroundColor: 'transparent', paddingTop: '0px'}}>
                   Recent Chats
                   <IconButton onClick={() => setShowSearchBar(!showSearchBar)}>
                     <SearchIcon color={'secondary'}/>
@@ -138,7 +138,7 @@ export default function Chats() {
         <>
         {data.chatId != "null" ?
           !isPending ?
-          <Grid container item md = {8.2} xs = {14} id = 'messagesContainer' direction='column' sx = {{height : '100%', overflowX: 'hidden'}} wrap={"nowrap"} style={{backgroundColor: "secondary.light"}}>
+          <Grid container item md = {8.2} xs = {14} id = 'messagesContainer' direction='column' sx = {{height : '100%', overflowX: 'hidden'}} wrap={"nowrap"}>
             <ChatSection innerPending = {innerPending} otherUser={data.user} handleOnBack={handleOnBack} messages={messages}/>
           </Grid> : <InContainerLoading/>
           :<>
@@ -154,7 +154,7 @@ export default function Chats() {
             </>
           }
         </>
-      </Grid> : <Box sx = {{height : '100%', display : 'flex', flexGrow : 1, justifyContent : 'center', alignItems : 'center'}}>
+      </Grid> : <Box sx = {{height : '100vh', display : 'flex', flexGrow : 1, justifyContent : 'center', alignItems : 'center'}}>
             <Button
               variant="contained"
               disabled = {true}
