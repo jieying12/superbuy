@@ -74,7 +74,7 @@ export default function ChatSection({messages, otherUser, handleOnBack, innerLoa
 
     return (
         <>
-            <Grid item container xs={expandTopBar? 1 : 1.8} id='messagesTopBar' sx={{ justifyContent: 'center', alignItems: 'center', marginTop: '10px', marginBottom: '10px'}} direction='row'>
+            <Grid item container xs={expandTopBar? 1 : 1.8} id='messagesTopBar' sx={{ justifyContent: 'center', alignItems: 'center'}} direction='row'>
                 <Grid item xs={1} className={styles.iconContainer}>
                     <IconButton onClick={handleOnBack}>
                         <ArrowBackIcon />
@@ -94,7 +94,7 @@ export default function ChatSection({messages, otherUser, handleOnBack, innerLoa
                 null
             }
             <Divider orientation="horizontal" sx={{ marginTop: '-2px' }} />
-            <ChatBox loading = {innerLoading} messages={messages} otherUser={otherUser}/> : 
+            <ChatBox loading = {innerLoading} messages={messages} otherUser={otherUser}/>
         </>
     )
 }

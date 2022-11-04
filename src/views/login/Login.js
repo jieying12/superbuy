@@ -3,15 +3,14 @@ import { useState } from 'react'
 import { Link as RouterLink } from "react-router-dom";
 import { useLogin } from '../../hooks/useLogin'
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
 import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import CustomButton from '../../components/CustomButton';
+import InContainerLoading from "../../components/InContainerLoading";
 
 export default function Login() {
     const [email, setEmail] = useState('')
@@ -94,7 +93,7 @@ export default function Login() {
                         Sign Up
                     </Link>
                 </div>
-                {isPending && <button className="btn" disabled>loading</button>}
+                {isPending && <InContainerLoading/>}
                 {error && <p>{error}</p>}
             </Box>
         </Container >
