@@ -203,6 +203,16 @@ export default function CreateGroupbuyForm() {
             const createdAt = timestamp.fromDate(new Date())
             const addedDocument = await ref.add({ ...groupbuy, createdAt })
             handleUpload(addedDocument.id);
+            await db.collection('chats').doc(addedDocument.id + 'GROUP').set({ messages: [] });
+            const hostChatRef = db.collection('userChats').doc('1') // to be chnaged to user.uid
+            await hostChatRef.update({
+            [addedDocument.id + 'GROUP' + ".groupBuyId"]: addedDocument.id,
+            [addedDocument.id + 'GROUP' + ".groupBuyName"]: title,
+            [addedDocument.id + 'GROUP' + ".isGroupChat"]: true,
+            [addedDocument.id + 'GROUP' + ".date"]: timestamp.fromDate(new Date()),
+            });
+
+
             console.log(urls);
             setIsPending(false);
             setSuccess(true);
