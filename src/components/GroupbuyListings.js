@@ -3,7 +3,7 @@ import { FiShoppingBag, FiSearch } from "react-icons/fi"
 import { AiOutlineHeart, AiOutlineClose } from "react-icons/ai"
 import { Link } from "react-router-dom"
 
-import Countdown from 'react-countdown';
+import Countdown from 'react-countdown'
 
 export default function GroupbuyListings({ groupbuys }) {
 
@@ -85,15 +85,18 @@ export default function GroupbuyListings({ groupbuys }) {
             </div>
             <div className='details'>
               <h2>{gb.title}</h2>
-              <h5 style={{ color: "#12b15b" }}>{Math.floor(Math.random() * gb.min)} / {gb.min} people joined</h5>
+              <div className='basket_values' style={{ display: "flex", justifyContent: "space-between" }}>
+                <h5 style={{ color: "#12b15b" }}>Basket Value: ${Math.floor(Math.random() * gb.min)}</h5>
+                <h5 style={{ color: "#12b15b" }}>Basket Min: ${gb.min}</h5>
+              </div>
               <br />
             </div>
             <div className='secondRow' style={{ display: "flex", justifyContent: "space-between" }}>
-              <div className='countdown' style={{ color: "#6f57b4", backgroundColor: "#e8ecef", width: "130px", height: "25px", borderRadius: "10px" }} >
+              <div className='countdown' style={{ color: "#5539a8", backgroundColor: "#e8ecef", width: "130px", height: "25px", borderRadius: "10px" }} >
                 &nbsp;&nbsp;&nbsp;
                 <Countdown date={new Date(gb.deadline.seconds * 1000).toString()} renderer={renderCountdown} />
               </div>
-              <div className='profilePictures' >
+              <div className='groupBuyMembers' >
                 <img src="https://media1.popsugar-assets.com/files/thumbor/Y4xoOEuTx97XZOh3P4sakypY5B8/0x279:2000x2279/fit-in/1024x1024/filters:format_auto-!!-:strip_icc-!!-/2020/12/18/009/n/1922153/16d13f855fdd37ce4da135.92210954_/i/emma-chamberlain-beauty-habits-interview.jpg" style={{ borderRadius: "50%", width: "30px" }} />
                 <img src="https://pbs.twimg.com/profile_images/1504538399054589980/GZVQy57T_400x400.jpg" style={{ borderRadius: "50%", width: "30px" }} />
                 <img src="https://i.pinimg.com/originals/16/65/8f/16658f6ce7abb4e63bf86258ac0c3234.jpg" style={{ borderRadius: "50%", width: "30px" }} />
