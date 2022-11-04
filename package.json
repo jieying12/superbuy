@@ -13,15 +13,22 @@
     "@mui/lab": "^5.0.0-alpha.67",
     "@mui/material": "^5.3.1",
     "@mui/styles": "^5.3.0",
+    "@ramonak/react-progress-bar": "^5.0.3",
+    "@mui/x-data-grid": "^5.17.9",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "date-fns": "^2.29.3",
+    "emoji-picker-react": "^4.4.4",
     "firebase": "^8.10.0",
     "material-icons": "^1.12.0",
     "material-ui-phone-number": "^3.0.0",
     "moment": "^2.29.4",
     "react": "^17.0.2",
+<<<<<<< HEAD
+=======
+    "react-countdown": "^2.3.3",
+>>>>>>> 14cc206d1b5d85c94a0107960515cfa8df2512fc
     "react-dom": "^17.0.2",
     "react-icons": "^4.4.0",
     "react-redux": "^8.0.2",

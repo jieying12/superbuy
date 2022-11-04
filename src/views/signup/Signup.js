@@ -11,6 +11,7 @@ import Container from '@mui/material/Container';
 import { IconButton, InputAdornment } from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import CustomButton from '../../components/CustomButton';
+import InContainerLoading from "../../components/InContainerLoading";
 
 export default function Signup() {
     const [email, setEmail] = useState('')
@@ -63,7 +64,6 @@ export default function Signup() {
                         label="Username"
                         name="username"
                         autoComplete="username"
-                        autoFocus
                         color="secondary"
                         onChange={(e) => setUsername(e.target.value)}
                         value={username}
@@ -108,7 +108,7 @@ export default function Signup() {
                         Login
                     </Link>
                 </div>
-                {isPending && <button className="btn" disabled>loading</button>}
+                {isPending && <InContainerLoading/>}
                 {error && <p>{error}</p>}
             </Box>
         </Container >

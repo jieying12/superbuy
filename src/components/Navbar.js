@@ -26,7 +26,7 @@ export default function Navbar() {
             <div className='center'>
               <ul className='menu'>
                 <li><Link to="/login">Products</Link></li>
-                <li><Link to="/signup">Orders</Link></li>
+                <li><Link to="/order">Orders</Link></li>
                 <li><Link to="/signup">Groups</Link></li>
               </ul>
             </div>

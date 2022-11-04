@@ -21,7 +21,7 @@ export const useSignup = () => {
         throw new Error('Failed registration')
       }
 
-      await res.user.updateProfile({ username })
+      await res.user.updateProfile({ displayName: username })
       //create user on firestore
       const userRef = db.collection('users').doc(res.user.uid)
       const addedUser = await userRef.set(

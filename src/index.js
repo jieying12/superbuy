@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import { AuthContextProvider } from './context/AuthContext';
+import { ChatContextProvider } from './context/ChatContext';
 import { createTheme, ThemeProvider } from '@mui/material';
 
 const theme = createTheme({
@@ -13,13 +14,17 @@ const theme = createTheme({
       veryLight: '#FFFFFF',
     },
     secondary: {//dark green
-      main: '#5EC992',
+      main: '#00ac4f',
       light: '#ADD8B2',
       veryLight: '#EDF6EE'
     },
+    tertiary: {//red
+      main: '#fa756b',
+      light: '#fcb8b3'
+    },
     action: {
       disabledBackground: '#ADD8B2',
-      hover: '#FFE8BC',
+      hover: '#ADD8B2',
     }
   },
   text: {
@@ -43,7 +48,9 @@ ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
       <AuthContextProvider>
-        <App />
+        <ChatContextProvider>
+          <App />
+        </ChatContextProvider>
       </AuthContextProvider>
     </ThemeProvider>
   </React.StrictMode >,
