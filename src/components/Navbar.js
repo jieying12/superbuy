@@ -37,7 +37,7 @@ export default function Navbar() {
               <BiSearch className='serachIcon heIcon' />
             </div>
             <div className='right_user'>
-              <RiUser3Line className='userIcon heIcon' />
+              <Link to="/profile"><RiUser3Line className='userIcon heIcon' /></Link>
               <AiOutlineHeart className='userIcon heIcon' />
             </div>
           </div>

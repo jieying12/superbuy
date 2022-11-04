@@ -8,6 +8,7 @@ import CreateGroupbuyForm from './views/createGroupbuy/createGroupbuyForm'
 import GroupbuyDetails from './views/groupbuy/GroupbuyDetails'
 import Login from './views/login/Login'
 import Signup from './views/signup/Signup'
+import Profile from './views/profile/Profile'
 
 import './style/main.scss'
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="/groupbuys/:id" element={<GroupbuyDetails />}/>
             <Route path="/login" element={user ? <Navigate to="/" /> : <Login />}/>
             <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />}/>
+            <Route path="/profile" element={<Profile/>}/>
           </Routes>
         </BrowserRouter>
       )}
