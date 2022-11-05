@@ -1,16 +1,14 @@
 import * as React from "react";
-import { useState} from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Icon, IconButton, List, ListItem, ListItemIcon,ListItemText, Modal, TextField, Typography,} from "@mui/material";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import Link from '@mui/icons-material/Link';
-import Info from '@mui/icons-material/Info';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import DriveFileRenameOutline from '@mui/icons-material/DriveFileRenameOutline';
 import { Box } from "@mui/system";
 import moment from "moment";
 import { styled } from "@mui/styles";
-import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import DoneIcon from '@mui/icons-material/Done';
 import CustomButton from "./CustomButton";
 import ClearIcon from '@mui/icons-material/Clear';
@@ -20,7 +18,8 @@ import { useDocument } from '../hooks/useDocument'
 import { db, timestamp } from "../firebase/firebase-config"
 import firebase from "firebase/app"
 import { v4 as uuid } from "uuid";
-import { REQUEST_PENDING_APPROVAL, REQUEST_ACCEPTED, REQUEST_REJECTED, ORDER_PENDING_PAYMENT, ORDER_PAID } from "../constants";
+import { REQUEST_PENDING_APPROVAL, REQUEST_ACCEPTED, REQUEST_REJECTED } from "../constants";
+import { FeedOutlined } from "@mui/icons-material";
 
 const CardContentNoPadding = styled(CardContent)(`
   padding: 0;
@@ -47,6 +46,7 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
     const[price, setPrice] = useState("");
     const[shipping, setShipping] = useState("");
     const[postage, setPostage] = useState("");
+    const[fee, setFee] = useState("");
     const[total, setTotal] = useState("");
     const[rejectionReason, setRejectionReason] = useState("");
     const[isLoading,setIsLoading] = useState(false)
@@ -80,6 +80,7 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
             price,
             shipping,
             postage,
+            fee,
             total,
             status: REQUEST_ACCEPTED
         })
@@ -168,7 +169,7 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
 
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         if(document && isLast) {
             console.log("REQ LAST, SCROLL TO BOTTOM AFTER LOAD")
             scrollToBottom();
@@ -269,6 +270,18 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
                         color="secondary"
                         onChange={(e) => setPostage(e.target.value)}
                         value={postage}
+                        type='number'
+                    >
+                    </TextField>
+                    <TextField
+                        margin="normal"
+                        fullWidth
+                        id='fee'
+                        label="Service Fee"
+                        name='fee'
+                        color="secondary"
+                        onChange={(e) => setFee(e.target.value)}
+                        value={FeedOutlined}
                         type='number'
                     >
                     </TextField>

@@ -48,6 +48,9 @@ export default function Chats() {
   const { dispatch } = useContext(ChatContext);
   const { data } = useContext(ChatContext);
 
+  console.log('retrieving chat data:')
+  console.log(data)
+
   useEffect(() => {
     setIsPending(true)
     const getChats = () => {
@@ -172,7 +175,7 @@ export default function Chats() {
         {data.chatId != "null" ?
           !innerPending ?
           <Grid container item md = {8.2} xs = {14} id = 'messagesContainer' direction='column' sx = {{height : '100%', overflowX: 'hidden'}} wrap={"nowrap"}>
-            <ChatSection innerPending = {innerPending} group={data.group} otherUser={data.user} handleOnBack={handleOnBack} messages={messages}/>
+            <ChatSection innerPending = {innerPending} group={data.group} otherUser={data.user} handleClickJoin={setTabValue} handleOnBack={handleOnBack} messages={messages}/>
           </Grid> : <InContainerLoading/>
           :<>
             <Grid container item md = {8} id = 'messagesContainer' direction='column' sx = {{justifyContent : 'center', alignItems : 'center'}}>

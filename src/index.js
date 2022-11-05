@@ -20,7 +20,10 @@ const theme = createTheme({
     },
     tertiary: {//red
       main: '#fa756b',
-      light: '#fcb8b3'
+      light: '#fcb8b3',
+    },
+    additional: {//purple
+      main: '#5539a8',
     },
     action: {
       disabledBackground: '#ADD8B2',

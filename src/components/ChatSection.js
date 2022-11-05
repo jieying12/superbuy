@@ -19,10 +19,9 @@ const useStyles = makeStyles((theme) => ({
 
 
 
-export default function ChatSection({messages, group, otherUser, handleOnBack, innerPending = false}) {
+export default function ChatSection({messages, group, otherUser, handleClickJoin, handleOnBack, innerPending = false}) {
     const styles = useStyles();
     const history = useNavigate();
-    console.log(group)
 
     React.useEffect(() => {
         console.log("SELECTEDCHAT: " + JSON.stringify(messages));
@@ -52,7 +51,7 @@ export default function ChatSection({messages, group, otherUser, handleOnBack, i
                 null
             }
             <Divider orientation="horizontal" sx={{ marginTop: '-2px' }} />
-            <ChatBox loading = {innerPending} messages={messages} otherUser={otherUser}/>
+            <ChatBox loading = {innerPending} messages={messages} handleClickJoin={handleClickJoin} otherUser={otherUser}/>
         </>
     )
 }
