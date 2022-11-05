@@ -5,6 +5,8 @@ import { Link } from "react-router-dom"
 
 import Countdown from 'react-countdown'
 
+import lizProfilePicture from "../views/profile/liz.png"
+
 export default function GroupbuyListings({ groupbuys }) {
 
   const [openImage, setOpenImage] = useState(false)
@@ -32,8 +34,8 @@ export default function GroupbuyListings({ groupbuys }) {
         {groupbuys.map((gb) => (
           <div className='box' key={gb.id}>
             <div className='createdBy' style={{ display: "flex", marginBottom: "5px" }}>
-              {gb.createdBy.displayName == "Annette Block" ?
-                <img src="https://preview.redd.it/vt8dqyl3rr891.jpg?width=640&crop=smart&auto=webp&s=aab8e036d3ddddb54824f0274851bd136fd35ec5" style={{ borderRadius: "50%", width: "30px" }} />
+              {gb.createdBy.displayName == "Liz" ?
+                <img src={lizProfilePicture} style={{ borderRadius: "50%", width: "30px" }} />
                 : null
               }
               {gb.createdBy.displayName == "Kennedy Walsh" ?

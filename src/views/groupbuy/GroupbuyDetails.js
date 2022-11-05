@@ -17,6 +17,8 @@ import Countdown from 'react-countdown'
 import ProgressBar from "@ramonak/react-progress-bar"
 import InContainerLoading from "../../components/InContainerLoading";
 
+import lizProfilePicture from "../profile/liz.png"
+
 export default function GroupbuyDetails() {
   const { user } = useAuthContext() // buyer
   const { dispatch } = useContext(ChatContext);
@@ -173,7 +175,7 @@ export default function GroupbuyDetails() {
     return <div className="error">{error}</div>
   }
   if (!document) {
-    return <InContainerLoading/>
+    return <InContainerLoading />
   }
 
   const renderCountdown = ({ days, hours, minutes, seconds, completed }) => {
@@ -246,8 +248,8 @@ export default function GroupbuyDetails() {
                 </div>
               </div>
               <div className='host_details' style={{ paddingTop: "30px", display: "flex" }}>
-                {document.createdBy.displayName == "Annette Block" ?
-                  <img src="https://preview.redd.it/vt8dqyl3rr891.jpg?width=640&crop=smart&auto=webp&s=aab8e036d3ddddb54824f0274851bd136fd35ec5" style={{ borderRadius: "50%", width: "30px" }} />
+                {document.createdBy.displayName == "Liz" ?
+                  <img src={lizProfilePicture} style={{ borderRadius: "50%", width: "30px" }} />
                   : null
                 }
                 {document.createdBy.displayName == "Kennedy Walsh" ?
