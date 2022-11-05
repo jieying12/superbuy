@@ -14,6 +14,7 @@ import Profile from './views/profile/Profile'
 import GroupbuyManagement from './views/groupbuymanagement/GroupbuyManagement'
 import GroupbuyOrderListing from './views/groupbuymanagement/GroupbuyOrderListing'
 import './style/main.scss'
+import Checkout from './views/checkout/Checkout'
 
 function App() {
   const { authIsReady, user } = useAuthContext()
@@ -33,6 +34,7 @@ function App() {
             <Route path="/login" element={user ? <Navigate to="/" /> : <Login />}/>
             <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />}/>
             <Route path="/profile" element={<Profile/>}/>
+            <Route path="/checkout" element={<Checkout/>}/>
             <Route path="/order" element={typeof(user)==='undefined'  ? <Navigate to="/login" /> : <GroupbuyManagement />}/>
             <Route path="/order/:id" element={<GroupbuyOrderListing />}/>
             {/* <Route path="/order" element={<GroupbuyManagement />}/> */}

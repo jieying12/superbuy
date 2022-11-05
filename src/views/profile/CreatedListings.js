@@ -5,7 +5,6 @@ function CreatedListings() {
     return (
         <div className='listings-container'>
             <GroupbuySection />
-            <p> asdasd</p>
         </div>
     )
 }

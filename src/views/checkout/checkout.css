@@ -1,22 +1,17 @@
-.profile-container {
+.checkout-container {
     display: flex;
     flex-direction: row;
 }
 
-.dp {
-    height: 300px;
-    border-radius: 150px;
-}
-
-.dashboard-container {
-    margin-top: 100px;
-    margin-left: 100px;
+.checkout-info {
+    margin-left: 250px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.listings-container {
+.checkout-cart {
     display: flex;
     flex-direction: column;
+    margin-left: 80px;
 }
