@@ -10,7 +10,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 import { useNavigate } from 'react-router-dom';
 import OrderListingsByGroupbuy from '../../components/groupbuymanagement/OrderListingsByGroupbuy'
-
+import { REQUEST_PENDING_APPROVAL, REQUEST_ACCEPTED, REQUEST_REJECTED, ORDER_PENDING_PAYMENT, ORDER_PAID } from "../../constants";
 
 function TabPanel(props) {
     const { children, value, index, ...other } = props;
@@ -80,10 +80,10 @@ export default function GroupbuyOrderListing() {
                     </Tabs>
                 </Box>
                 <TabPanel value={value} index={0}>
-                    <OrderListingsByGroupbuy status = "PENDING_APPROVAL"/>
+                    <OrderListingsByGroupbuy status = {REQUEST_PENDING_APPROVAL}/>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <OrderListingsByGroupbuy status = "APPROVED"/>
+                    <OrderListingsByGroupbuy status = {REQUEST_ACCEPTED}/>
                 </TabPanel>
             </Box>
         </>
