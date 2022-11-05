@@ -15,6 +15,7 @@ import Navbar from '../../components/Navbar'
 
 import Countdown from 'react-countdown'
 import ProgressBar from "@ramonak/react-progress-bar"
+import InContainerLoading from "../../components/InContainerLoading";
 
 export default function GroupbuyDetails() {
   const { user } = useAuthContext() // buyer
@@ -49,6 +50,7 @@ export default function GroupbuyDetails() {
             displayName: hostUsername,
             photoURL: '',
           },
+          [combinedId + ".isGroupChat"]: false,
           [combinedId + ".date"]: timestamp.fromDate(new Date()),
         });
 
@@ -59,6 +61,7 @@ export default function GroupbuyDetails() {
             displayName: 'buyer',
             photoURL: '',
           },
+          [combinedId + ".isGroupChat"]: false,
           [combinedId + ".date"]: timestamp.fromDate(new Date()),
         });
       }
@@ -134,6 +137,7 @@ export default function GroupbuyDetails() {
           [combinedId + ".lastMessage"]: {
             text: 'You have sent a request for ' + document.title + ' group buy by' + user.displayName + '.',
           },
+          [combinedId + ".isGroupChat"]: false,
           [combinedId + ".date"]: timestamp.fromDate(new Date()),
         });
 
@@ -147,12 +151,13 @@ export default function GroupbuyDetails() {
           [combinedId + ".lastMessage"]: {
             text: user.displayName + ' has sent you a request for your ' + document.title + ' group buy.',
           },
+          [combinedId + ".isGroupChat"]: false,
           [combinedId + ".date"]: timestamp.fromDate(new Date()),
         });
 
       }
       dispatch({
-        type: "CHANGE_USER", payload: {
+        type: "", payload: {
           uid: hostId,
           displayName: hostUsername,
           photoURL: '',
@@ -168,7 +173,7 @@ export default function GroupbuyDetails() {
     return <div className="error">{error}</div>
   }
   if (!document) {
-    return <div className="loading">Loading...</div>
+    return <InContainerLoading/>
   }
 
   const renderCountdown = ({ days, hours, minutes, seconds, completed }) => {

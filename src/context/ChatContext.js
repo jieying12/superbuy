@@ -11,27 +11,35 @@ import {
     const INITIAL_STATE = {
       chatId: "null",
       user: {},
+      group: '',
+      isGroupChat: false
     };
   
     const chatReducer = (state, action) => {
       switch (action.type) {
         case "CHANGE_USER":
           return {
+            group: '',
             user: action.payload,
             chatId:
             user.uid > action.payload.uid
                 ? user.uid + action.payload.uid
                 : action.payload.uid + user.uid,
+            isGroupChat: false
           };
         case "CHANGE_GROUP":
           return {
             user: {},
-            chatId: action.payload
+            group: action.payload.groupBuyName,
+            chatId: action.payload.groupBuyId,
+            isGroupChat: true
           };
         case 'RESET':
           return { 
             user: {},
-            chatId: "null"
+            group: '',
+            chatId: "null",
+            isGroupChat: false
           }
   
         default:

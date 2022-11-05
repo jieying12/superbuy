@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext} from "react"
+import { useEffect, useState, useContext, useCallback} from "react"
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { ChatContext } from "../../context/ChatContext";
 import { db } from "../../firebase/firebase-config"
@@ -7,8 +7,8 @@ import { useNavigate } from "react-router-dom"
 import ContactCard from "../../components/ContactCard";
 import ChatSection from "../../components/ChatSection";
 
-import { Box, Button, CircularProgress, Divider, Grid, IconButton, InputAdornment, List, ListSubheader, Typography, useMediaQuery } from "@mui/material";
-import { makeStyles} from "@mui/styles";
+import { Box, Button, CircularProgress, Divider, Grid, IconButton, InputAdornment, List, ListSubheader, Typography, useMediaQuery, Tabs, Tab } from "@mui/material";
+import { makeStyles, withStyles } from "@mui/styles";
 import { TextField } from "@material-ui/core";
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -26,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }))
 
+const CustomTab = withStyles({
+  root: {
+    textTransform: "none"
+  }
+})(Tab);
+
 export default function Chats() {
   const styles = useStyles();
   const history = useNavigate();
@@ -36,6 +42,7 @@ export default function Chats() {
   const [isPending, setIsPending] = useState(false)
   const[innerPending, setInnerPending] = useState(false)
   const [showSearchBar, setShowSearchBar] = useState(false)
+  const [tabValue, setTabValue] = useState(0)
 
   const { user } = useAuthContext()
   const { dispatch } = useContext(ChatContext);
@@ -64,7 +71,9 @@ export default function Chats() {
     const ref = db.collection('chats').doc(data.chatId)
     const unSub = ref.onSnapshot(doc => {
       doc.exists && setMessages(doc.data().messages);
-      setInnerPending(false)
+      setTimeout(() => { 
+        setInnerPending(false);
+      }, 100 );
     });
 
     return () => {
@@ -76,6 +85,21 @@ export default function Chats() {
     dispatch({ type: "RESET" });
     history(-1);
   }
+
+  // useEffect(() => {
+  //   setTabValue(0);
+  // },[data.user])
+
+  function a11yProps(index) {
+    return {
+      id: `simple-tab-${index}`,
+      'aria-controls': `simple-tabpanel-${index}`,
+    };
+  }
+
+  const handleTabChange = (event, newValue) => {
+    setTabValue(newValue);
+  };
 
   const handleSelectUser = (u) => {
     dispatch({ type: "CHANGE_USER", payload: u });
@@ -104,6 +128,10 @@ export default function Chats() {
                     <SearchIcon color={'secondary'}/>
                   </IconButton>
                 </ListSubheader>
+                <Tabs id='tabs-container' value={tabValue} onChange={handleTabChange} classes = {{"indicator": {background: "none"}} } aria-label="chatTabs" variant="fullWidth" sx = {{"& button[aria-selected='true']": {borderBottom : "5px solid", borderBottomColor : 'secondary.main', color : "secondary.main"}, width : '100%'}}>
+                    <CustomTab label="Direct" {...a11yProps(0)}/>
+                    <CustomTab label="Group"  {...a11yProps(1)}/>
+                </Tabs>
                 
                 </Box>
               }
@@ -128,18 +156,23 @@ export default function Chats() {
             />
             </Box>}
             <Box paddingRight={'16px'}>
-            {Object.entries(chats)?.sort((a,b)=>b[1].date - a[1].date).map((chat) => (
+            {tabValue === 0 ? Object.entries(chats)?.sort((a,b)=>b[1].date - a[1].date).filter((chat) => !chat[1].isGroupChat).map((chat) => (
                 <ContactCard chat = {chat} user = {chat[1].userInfo} key ={chat[0]} handleClick={handleSelectUser} handleClickGroup={handleSelectGroup}/>
-              ))}
+              )) : 
+              Object.entries(chats)?.sort((a,b)=>b[1].date - a[1].date).filter((chat) => chat[1].isGroupChat).map((chat) => (
+                <ContactCard chat = {chat} user = {chat[1].userInfo} key ={chat[0]} handleClick={handleSelectUser} handleClickGroup={handleSelectGroup}/>
+              ))
+            }
+            
             </Box>
           </List>
         </Grid>
         <Divider orientation="vertical" sx ={{marginRight : '-2px', height: '100%'}}/>
         <>
         {data.chatId != "null" ?
-          !isPending ?
+          !innerPending ?
           <Grid container item md = {8.2} xs = {14} id = 'messagesContainer' direction='column' sx = {{height : '100%', overflowX: 'hidden'}} wrap={"nowrap"}>
-            <ChatSection innerPending = {innerPending} otherUser={data.user} handleOnBack={handleOnBack} messages={messages}/>
+            <ChatSection innerPending = {innerPending} group={data.group} otherUser={data.user} handleOnBack={handleOnBack} messages={messages}/>
           </Grid> : <InContainerLoading/>
           :<>
             <Grid container item md = {8} id = 'messagesContainer' direction='column' sx = {{justifyContent : 'center', alignItems : 'center'}}>

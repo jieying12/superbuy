@@ -28,7 +28,7 @@ const CardContentNoPadding = styled(CardContent)(`
   }
 `);
 
-export default function PaymentChatCard({orderId, showButtons = false, isLast, maxWidth = '330px', minWidth = 'auto', handleRejection: handleRejection}) {
+export default function PaymentChatCard({orderId, showButtons = false, isLast, maxWidth = '330px', minWidth = 'auto'}) {
   const addOnCardStyle = { backgroundColor : "white", maxWidth: maxWidth, width: minWidth, borderRadius : '16px', flexDirection : 'column',marginTop:'8px', marginBottom : '8px'}
 
     const fields = ['price', 'shipping', 'postage', 'total']

@@ -1,10 +1,12 @@
 import * as React from "react";
-import { useEffect, useState, useContext} from "react"
+import { useState} from "react"
 import { Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Icon, IconButton, List, ListItem, ListItemIcon,ListItemText, Modal, TextField, Typography,} from "@mui/material";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+import Link from '@mui/icons-material/Link';
+import Info from '@mui/icons-material/Info';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import DriveFileRenameOutline from '@mui/icons-material/DriveFileRenameOutline';
 import { Box } from "@mui/system";
 import moment from "moment";
 import { styled } from "@mui/styles";
@@ -12,7 +14,6 @@ import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import DoneIcon from '@mui/icons-material/Done';
 import CustomButton from "./CustomButton";
 import ClearIcon from '@mui/icons-material/Clear';
-import { useNavigate } from "react-router-dom";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import { useDocument } from '../hooks/useDocument'
@@ -28,13 +29,13 @@ const CardContentNoPadding = styled(CardContent)(`
   }
 `);
 
-export default function RequestChatCard({orderId, showButtons = false, isLast, maxWidth = '330px', minWidth = 'auto', handleRejection: handleRejection}) {
+export default function RequestChatCard({orderId, showButtons = false, isLast, maxWidth = '330px', minWidth = 'auto'}) {
   const addOnCardStyle = { backgroundColor : "white", maxWidth: maxWidth, width: minWidth, borderRadius : '16px', flexDirection : 'column',marginTop:'8px', marginBottom : '8px'}
 
     const fields = ['productName', 'productUrl', 'requestDetails']
     const icons = {
-        productName : <AccessTimeIcon color = 'secondary'/>,
-        productUrl : <MonetizationOnOutlinedIcon color = 'secondary'/>,
+        productName : <DriveFileRenameOutline color = 'secondary'/>,
+        productUrl : <Link color = 'secondary'/>,
         requestDetails : <AddCircleOutlineOutlinedIcon color = 'secondary'/>,
     }
 
@@ -190,7 +191,7 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
             <List>
             {
                 (fields.map((field, index) => (
-                    <ListItem key={index} id={index} component={index === 1 && 'a'} href={index === 1 ? document[field] : null}>
+                    <ListItem key={index} id={index} component={index === 1 && 'a'} href={index === 1 ? document[field] : undefined}>
                         <ListItemIcon sx={{minWidth: 0, paddingRight: 2}}>{icons[field]}</ListItemIcon>
                         {index === 1 ? 
                             <ListItemText sx={{wordWrap:'break-word'}} primaryTypographyProps={{fontSize:12}}>{document[field]}</ListItemText> 

@@ -4,8 +4,6 @@ import cx from 'clsx';
 import { Avatar, Grid, ImageList, ImageListItem, Typography } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import ChatMessageStyle from './ChatMessageStyle'
-import { useDispatch } from 'react-redux';
-// import { openImageModal } from '../../Redux/actions';
 import { Box } from '@mui/system';
 import RequestChatCard from './RequestChatCard';
 import PaymentChatCard from './PaymentChatCard';
@@ -25,7 +23,6 @@ const ChatMessage = withStyles(ChatMessageStyle, { name: 'ChatMsg' })(props => {
     images,
     isRequest,
     isAcceptance,
-    handleSendRejectionMessage,
     isLast,
   } = props;
   const attachClass = index => {
@@ -38,11 +35,6 @@ const ChatMessage = withStyles(ChatMessageStyle, { name: 'ChatMsg' })(props => {
     return '';
   };
 
-  // const dispatch = useDispatch();
-  // function handlePhotoModal(images, index) {
-  //   dispatch(openImageModal(images,index))
-  // }
-  
   return (
     <>
     <Grid
@@ -107,10 +99,10 @@ const ChatMessage = withStyles(ChatMessageStyle, { name: 'ChatMsg' })(props => {
                   </Typography>
                   : 
                   <Box sx ={{display : 'flex', justifyContent : `${side === 'right' ? 'flex-end' : 'flex-start'}`}}>
-                  <PaymentChatCard orderId={messages[0].orderId} showButtons = {side === 'left' ? true : false} isLast={isLast} handleRejection={handleSendRejectionMessage}/>
+                  <PaymentChatCard orderId={messages[0].orderId} showButtons = {side === 'left' ? true : false} isLast={isLast}/>
                   </Box>
               : <Box sx ={{display : 'flex', justifyContent : `${side === 'right' ? 'flex-end' : 'flex-start'}`}}>
-                <RequestChatCard orderId={messages[0].orderId} showButtons = {side === 'left' ? true : false} isLast={isLast} handleRejection={handleSendRejectionMessage}/>
+                <RequestChatCard orderId={messages[0].orderId} showButtons = {side === 'left' ? true : false} isLast={isLast}/>
                 </Box>}
             </div>
           );
@@ -135,7 +127,6 @@ ChatMessage.propTypes = {
   isRequest : PropTypes.bool,
   isAcceptance : PropTypes.bool,
   isLast : PropTypes.bool,
-  handleSendRejectionMessage : PropTypes.func,
 };
 ChatMessage.defaultProps = {
   avatar: '',
@@ -150,7 +141,6 @@ ChatMessage.defaultProps = {
   isRequest : false,
   isAcceptance : false,
   isLast : false,
-  handleSendRejectionMessage : () => ({}),
 };
 
 export default ChatMessage;

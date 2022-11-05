@@ -4,7 +4,7 @@ import moment from "moment"
 import React from "react"
 
 export default function ContactCard({chat,user,handleClick,handleClickGroup}) {
-    
+
     function toTitleCase(str) {
         return str.replace(
           /\w\S*/g,
@@ -15,13 +15,13 @@ export default function ContactCard({chat,user,handleClick,handleClickGroup}) {
       }
 
     return(
-        <ListItemButton onClick={()=> {chat.isGroup ? handleClickGroup(chat.groupBuyId + "GROUP"): handleClick(user)}}>
+        <ListItemButton onClick={()=> {chat[1].isGroupChat ? handleClickGroup(chat[1]): handleClick(user)}}>
             <ListItemAvatar>
-                <Avatar alt={user.displayName}/>
+                <Avatar alt={chat[1].isGroupChat ? '' : user.displayName}/>
             </ListItemAvatar>
             <Box sx = {{display : "flex", flexDirection : "row", justifyContent : "space-between", width : "100%", minWidth : 0}}>
             <ListItemText 
-                primary = {chat.isGroup ? chat.groupBuyName : toTitleCase(user.displayName)} 
+                primary = {chat[1].isGroupChat ? chat[1].groupBuyName : toTitleCase(user.displayName)} 
                 secondary = {chat[1].lastMessage ? chat[1].lastMessage.text : ''} 
                 primaryTypographyProps={{ 
                     style: {
@@ -42,13 +42,13 @@ export default function ContactCard({chat,user,handleClick,handleClickGroup}) {
                 }}
             />
             {chat && <Typography variant = 'subtitle2' sx ={{paddingTop : '7px'}}>
-                {moment(chat.date).isSame(moment(new Date()).subtract(1,'days'), 'day') 
+                {moment(new Date(chat[1].date.seconds * 1000)).isSame(moment(new Date()).subtract(1,'days'), 'day') 
                 ? "Yesterday" 
-                : (moment(chat.date).isSame(new Date(), 'day') 
-                ? moment(chat.date).format("hh:mm")
-                : (moment(chat.date).isSame(new Date(), 'week') 
-                    ? moment(chat.date).format("ddd") 
-                    : moment(chat.date).format("DD/MM/YY")
+                : (moment(new Date(chat[1].date.seconds * 1000)).isSame(new Date(), 'day') 
+                ? moment(new Date(chat[1].date.seconds * 1000)).format("hh:mm")
+                : (moment(new Date(chat[1].date.seconds * 1000)).isSame(new Date(), 'week') 
+                    ? moment(new Date(chat[1].date.seconds * 1000)).format("ddd") 
+                    : moment(new Date(chat[1].date.seconds * 1000)).format("DD/MM/YY")
                     ))
                 }
             </Typography>

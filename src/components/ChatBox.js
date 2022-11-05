@@ -45,11 +45,7 @@ export default function ChatBox({ messages, otherUser, loading = true }) {
     const [firstScroll, setFirstScroll] = useState(false)
     const messagesEndRef = useRef(null);
     const [pickerRef,isPickerVisible,setIsPickerVisible] = useComponentVisible(false);
-
-    console.log("otherUser");
-    console.log(otherUser);
-
-    const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block:"start" })}
+    // const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block:"start" })}
 
     useEffect(() => {
         var groupBuyIds = messages.filter(msg => msg.isRequest).map(filteredObj => filteredObj.groupBuyId);
@@ -130,29 +126,24 @@ export default function ChatBox({ messages, otherUser, loading = true }) {
         setIsLoading(false);
     };
 
-    function handleSendRejectionMessage() {
-        // handleRefresh(selectedChat.chatAlternateId);
-        //sendStompMessage(messagePayload);
-    }
+    // React.useEffect(() => {
+    //     if (loading === false && messages) {
+    //         setTimeout(() => {
+    //             console.log("scrolling to bottom init len: ", messages?.length || 0)
+    //             document.getElementById("messagesEndRef").scrollIntoView();
 
-    React.useEffect(() => {
-        if (loading === false && messages) {
-            setTimeout(() => {
-                console.log("scrolling to bottom init len: ", messages?.length || 0)
-                document.getElementById("messagesEndRef").scrollIntoView();
+    //         }, 100);
+    //     }
+    //     setFirstScroll(true);
+    // }, [loading, messages])
 
-            }, 100);
-        }
-        setFirstScroll(true);
-    }, [loading, messages])
+    // React.useEffect(() => {
+    //     if (messages.lastMessage && firstScroll) {
+    //         console.log("scrolling to bottom on lastMessage");
+    //         scrollToBottom()
 
-    React.useEffect(() => {
-        if (messages.lastMessage && firstScroll) {
-            console.log("scrolling to bottom on lastMessage");
-            scrollToBottom()
-
-        }
-    }, [messages.lastMessage]);
+    //     }
+    // }, [messages.lastMessage]);
 
     const handleFormChange = (e) => {
         setText(e.target.value);
@@ -218,7 +209,6 @@ export default function ChatBox({ messages, otherUser, loading = true }) {
                                 isRequest = {message.isRequest}
                                 isAcceptance = {message.isAcceptance}
                                 isLast={messages.length - 1 === idx && !loading}
-                                handleSendRejectionMessage={handleSendRejectionMessage}
                             />
                         </li>
                         </>
