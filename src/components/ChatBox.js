@@ -19,9 +19,7 @@ import SentimentSatisfiedAltIcon from '@mui/icons-material/SentimentSatisfiedAlt
 import { makeStyles } from '@mui/styles';
 import Picker from 'emoji-picker-react';
 import TopicCard from './TopicCard';
-// import useComponentVisible from '../../Hooks/useComponentVisible';
-// import { openImageModal } from '../../Redux/actions';
-// import { ERROR } from '../../Redux/actionTypes';
+import { BiMessageSquare } from 'react-icons/bi';
 
 const useStyles = makeStyles((theme) => ({
     iconContainer: {
@@ -30,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }))
 
-export default function ChatBox({ messages, otherUser, loading = true }) {
+export default function ChatBox({ messages, otherUser, handleClickJoin, loading = true }) {
     const styles = useStyles();
     const history = useNavigate();
 
@@ -45,11 +43,11 @@ export default function ChatBox({ messages, otherUser, loading = true }) {
     const [firstScroll, setFirstScroll] = useState(false)
     const messagesEndRef = useRef(null);
     const [pickerRef,isPickerVisible,setIsPickerVisible] = useComponentVisible(false);
-
-    console.log("otherUser");
-    console.log(otherUser);
-
-    const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block:"start" })}
+    const scrollToBottom = () => { 
+        if (messagesEndRef && messagesEndRef.current) {
+            messagesEndRef.current.scrollIntoView({ behavior: "smooth", block:"start" })
+        }
+    }
 
     useEffect(() => {
         var groupBuyIds = messages.filter(msg => msg.isRequest).map(filteredObj => filteredObj.groupBuyId);
@@ -118,41 +116,39 @@ export default function ChatBox({ messages, otherUser, loading = true }) {
             [data.chatId + ".date"]: timestamp.fromDate(new Date()),
         });
 
-        await db.collection('userChats').doc(data.user.uid).update({
-            [data.chatId + ".lastMessage"]: {
-                text,
-            },
-            [data.chatId + ".date"]: timestamp.fromDate(new Date()),
-        });
-
+        if (!data.isGroupChat) {
+            await db.collection('userChats').doc(data.user.uid).update({
+                [data.chatId + ".lastMessage"]: {
+                    text,
+                },
+                [data.chatId + ".date"]: timestamp.fromDate(new Date()),
+            });
+        }
+        
         setText("");
         setImg(null);
         setIsLoading(false);
     };
 
-    function handleSendRejectionMessage() {
-        // handleRefresh(selectedChat.chatAlternateId);
-        //sendStompMessage(messagePayload);
-    }
-
-    React.useEffect(() => {
+    useEffect(() => {
         if (loading === false && messages) {
             setTimeout(() => {
                 console.log("scrolling to bottom init len: ", messages?.length || 0)
-                document.getElementById("messagesEndRef").scrollIntoView();
-
+                if (document.getElementById("messagesEndRef")) {
+                    document.getElementById("messagesEndRef").scrollIntoView();
+                }
             }, 100);
         }
         setFirstScroll(true);
     }, [loading, messages])
 
-    React.useEffect(() => {
-        if (messages.lastMessage && firstScroll) {
+    useEffect(() => {
+        if (messages && firstScroll) {
             console.log("scrolling to bottom on lastMessage");
             scrollToBottom()
 
         }
-    }, [messages.lastMessage]);
+    }, [messages]);
 
     const handleFormChange = (e) => {
         setText(e.target.value);
@@ -178,12 +174,8 @@ export default function ChatBox({ messages, otherUser, loading = true }) {
         setText(text + emojiObject.emoji);
     };
 
-    function handleTopicCardClick(senderId) {
-        if(user.uid === senderId) {
-            history(`/orders/${senderId}`)
-        } else {
-            history(`/orders/requestDetails/${senderId}`)
-        }
+    function handleTopicCardClick(groupBuyId) {
+        history(`/groupbuys/${groupBuyId}`)
     }
 
     return (
@@ -200,25 +192,25 @@ export default function ChatBox({ messages, otherUser, loading = true }) {
                             justifyContent={message.senderId !== otherUser.uid ? 'flex-end' : 'flex-start'}
                         >
                              {topics && topics.map(topic => (
-                                message.groupBuyId == topic.id ?
-                                <Button onClick = {handleTopicCardClick} disableRipple = {true} sx={{textTransform : "none", textAlign :'left'}}>
-                                    <TopicCard image = {topic.urls[0] ? topic.urls[0] : ''} title = {topic.title} price = {topic.fee}/>
-                                </Button> : null
+                                message.groupBuyId == topic.id &&
+                                <Button onClick = {() => handleTopicCardClick(message.groupBuyId)} disableRipple = {true} sx={{textTransform : "none", textAlign :'left'}}>
+                                    <TopicCard side={message.senderId === user.uid ? 'right' : 'left'} image = {topic.urls[0] ? topic.urls[0] : ''} title = {topic.title} description = {topic.description}/>
+                                </Button> 
                              ))}
                             
                         </Grid>}
                         <li key={idx}>
                             <ChatMessage
-                                avatar={message.senderId == otherUser.displayName ? DP_URL : null}
+                                avatar={message.senderId == otherUser.uid ? DP_URL : null}
                                 side={message.senderId === user.uid ? 'right' : 'left'}
                                 messages={[message]}
                                 text={[message.text]}
                                 images={message?.img ? message.img : null}
-                                timestamp={moment(message.date).format("hh:mm")}
+                                timestamp={moment(new Date(message.date.seconds * 1000)).format("hh:mm")}
                                 isRequest = {message.isRequest}
                                 isAcceptance = {message.isAcceptance}
                                 isLast={messages.length - 1 === idx && !loading}
-                                handleSendRejectionMessage={handleSendRejectionMessage}
+                                handleClickJoin = {handleClickJoin}
                             />
                         </li>
                         </>
@@ -274,7 +266,6 @@ export default function ChatBox({ messages, otherUser, loading = true }) {
                     </label>
                 </Grid> : <Grid item xs={1} className={styles.iconContainer} sx={{paddingBottom : 1}}><CircularProgress color="secondary" size = {20}/></Grid>}
             </Grid>
-            {<Grid item xs={1}/>}
             <div ref={pickerRef} onKeyDown={handleOnKeyDown}>
                 {isPickerVisible && <Picker
                     pickerStyle={{ width: '100%' }}

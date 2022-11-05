@@ -9,7 +9,7 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import { useNavigate } from 'react-router-dom';
 import OrderListingsByGroupbuy from '../../components/groupbuymanagement/OrderListingsByGroupbuy'
-import { REQUEST_PENDING_APPROVAL, REQUEST_ACCEPTED, ORDER_PENDING_PAYMENT, ORDER_PAID, COMPLETED, ITEM_DELIVER} from "../../constants";
+import { REQUEST_PENDING_APPROVAL, REQUEST_ACCEPTED, ORDER_PENDING_PAYMENT, ORDER_PAID, COMPLETED, ORDER_DELIVERED} from "../../constants";
 import { styled, alpha } from '@mui/material/styles';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
@@ -172,7 +172,7 @@ export default function GroupbuyOrderListing() {
                     <OrderListingsByGroupbuy status={[REQUEST_PENDING_APPROVAL]} />
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <OrderListingsByGroupbuy status={[REQUEST_ACCEPTED, ORDER_PAID, ITEM_DELIVER, COMPLETED]} setSelectedRows={setSelectedRows}/>
+                    <OrderListingsByGroupbuy status={[REQUEST_ACCEPTED, ORDER_PAID, ORDER_DELIVERED, COMPLETED]} setSelectedRows={setSelectedRows}/>
                 </TabPanel>
             </Box>
             <StatusConfirmationDialog show={show} setShow={(bool) => setShow(bool)} status = {status} selectedRows = {selectedRows}/>

@@ -9,6 +9,8 @@ import GroupbuyDetails from './views/groupbuy/GroupbuyDetails'
 import ChatScreen from './views/chat/ChatScreen'
 import Login from './views/login/Login'
 import Signup from './views/signup/Signup'
+import Profile from './views/profile/Profile'
+
 import GroupbuyManagement from './views/groupbuymanagement/GroupbuyManagement'
 import GroupbuyOrderListing from './views/groupbuymanagement/GroupbuyOrderListing'
 import './style/main.scss'
@@ -30,6 +32,7 @@ function App() {
             <Route path="/chat" element={<ChatScreen />}/>
             <Route path="/login" element={user ? <Navigate to="/" /> : <Login />}/>
             <Route path="/signup" element={user ? <Navigate to="/" /> : <Signup />}/>
+            <Route path="/profile" element={<Profile/>}/>
             <Route path="/order" element={typeof(user)==='undefined'  ? <Navigate to="/login" /> : <GroupbuyManagement />}/>
             <Route path="/order/:id" element={<GroupbuyOrderListing />}/>
             {/* <Route path="/order" element={<GroupbuyManagement />}/> */}

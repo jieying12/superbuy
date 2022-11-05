@@ -6,7 +6,8 @@ import Logo from '../assets/logo.png'
 import { BiSearch } from "react-icons/bi"
 import { BsBagCheck } from "react-icons/bs"
 import { RiUser3Line } from "react-icons/ri"
-import { AiOutlineHeart, AiOutlineMenu, AiOutlineClose, AiOutlineDelete } from "react-icons/ai"
+import { AiOutlineHeart, AiOutlineBell, AiOutlineMenu, AiOutlineClose, AiOutlineDelete } from "react-icons/ai"
+import { BsChat } from "react-icons/bs"
 
 export default function Navbar() {
   const { logout } = useLogout()
@@ -37,8 +38,10 @@ export default function Navbar() {
               <BiSearch className='serachIcon heIcon' />
             </div>
             <div className='right_user'>
-              <RiUser3Line className='userIcon heIcon' />
               <AiOutlineHeart className='userIcon heIcon' />
+              <BsChat className='userIcon heIcon' />
+              <AiOutlineBell className='userIcon heIcon' />
+              <Link to="/profile"><RiUser3Line className='userIcon heIcon' /></Link>
             </div>
           </div>
         </div>

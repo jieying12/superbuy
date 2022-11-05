@@ -14,13 +14,16 @@ const theme = createTheme({
       veryLight: '#FFFFFF',
     },
     secondary: {//dark green
-      main: '#5EC992',
+      main: '#00ac4f',
       light: '#ADD8B2',
       veryLight: '#EDF6EE'
     },
     tertiary: {//red
       main: '#fa756b',
-      light: '#fcb8b3'
+      light: '#fcb8b3',
+    },
+    additional: {//purple
+      main: '#5539a8',
     },
     action: {
       disabledBackground: '#ADD8B2',

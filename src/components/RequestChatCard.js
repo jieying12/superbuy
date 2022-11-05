@@ -1,25 +1,25 @@
 import * as React from "react";
-import { useEffect, useState, useContext} from "react"
+import { useState, useEffect } from "react"
 import { Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Icon, IconButton, List, ListItem, ListItemIcon,ListItemText, Modal, TextField, Typography,} from "@mui/material";
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import MonetizationOnOutlinedIcon from '@mui/icons-material/MonetizationOnOutlined';
+import Link from '@mui/icons-material/Link';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import DriveFileRenameOutline from '@mui/icons-material/DriveFileRenameOutline';
 import { Box } from "@mui/system";
 import moment from "moment";
 import { styled } from "@mui/styles";
-import PriceCheckIcon from '@mui/icons-material/PriceCheck';
 import DoneIcon from '@mui/icons-material/Done';
 import CustomButton from "./CustomButton";
 import ClearIcon from '@mui/icons-material/Clear';
-import { useNavigate } from "react-router-dom";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import { useDocument } from '../hooks/useDocument'
 import { db, timestamp } from "../firebase/firebase-config"
 import firebase from "firebase/app"
 import { v4 as uuid } from "uuid";
-import { REQUEST_PENDING_APPROVAL, REQUEST_ACCEPTED, REQUEST_REJECTED, ORDER_PENDING_PAYMENT, ORDER_PAID } from "../constants";
+import { REQUEST_PENDING_APPROVAL, REQUEST_ACCEPTED, REQUEST_REJECTED } from "../constants";
+import { FeedOutlined } from "@mui/icons-material";
 
 const CardContentNoPadding = styled(CardContent)(`
   padding: 0;
@@ -28,13 +28,13 @@ const CardContentNoPadding = styled(CardContent)(`
   }
 `);
 
-export default function RequestChatCard({orderId, showButtons = false, isLast, maxWidth = '330px', minWidth = 'auto', handleRejection: handleRejection}) {
+export default function RequestChatCard({orderId, showButtons = false, isLast, maxWidth = '330px', minWidth = 'auto'}) {
   const addOnCardStyle = { backgroundColor : "white", maxWidth: maxWidth, width: minWidth, borderRadius : '16px', flexDirection : 'column',marginTop:'8px', marginBottom : '8px'}
 
     const fields = ['productName', 'productUrl', 'requestDetails']
     const icons = {
-        productName : <AccessTimeIcon color = 'secondary'/>,
-        productUrl : <MonetizationOnOutlinedIcon color = 'secondary'/>,
+        productName : <DriveFileRenameOutline color = 'secondary'/>,
+        productUrl : <Link color = 'secondary'/>,
         requestDetails : <AddCircleOutlineOutlinedIcon color = 'secondary'/>,
     }
 
@@ -46,6 +46,7 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
     const[price, setPrice] = useState("");
     const[shipping, setShipping] = useState("");
     const[postage, setPostage] = useState("");
+    const[fee, setFee] = useState("");
     const[total, setTotal] = useState("");
     const[rejectionReason, setRejectionReason] = useState("");
     const[isLoading,setIsLoading] = useState(false)
@@ -79,6 +80,7 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
             price,
             shipping,
             postage,
+            fee,
             total,
             status: REQUEST_ACCEPTED
         })
@@ -167,7 +169,7 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
 
     }
 
-    React.useEffect(() => {
+    useEffect(() => {
         if(document && isLast) {
             console.log("REQ LAST, SCROLL TO BOTTOM AFTER LOAD")
             scrollToBottom();
@@ -190,7 +192,7 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
             <List>
             {
                 (fields.map((field, index) => (
-                    <ListItem key={index} id={index} component={index === 1 && 'a'} href={index === 1 ? document[field] : null}>
+                    <ListItem key={index} id={index} component={index === 1 && 'a'} href={index === 1 ? document[field] : undefined}>
                         <ListItemIcon sx={{minWidth: 0, paddingRight: 2}}>{icons[field]}</ListItemIcon>
                         {index === 1 ? 
                             <ListItemText sx={{wordWrap:'break-word'}} primaryTypographyProps={{fontSize:12}}>{document[field]}</ListItemText> 
@@ -268,6 +270,18 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
                         color="secondary"
                         onChange={(e) => setPostage(e.target.value)}
                         value={postage}
+                        type='number'
+                    >
+                    </TextField>
+                    <TextField
+                        margin="normal"
+                        fullWidth
+                        id='fee'
+                        label="Service Fee"
+                        name='fee'
+                        color="secondary"
+                        onChange={(e) => setFee(e.target.value)}
+                        value={FeedOutlined}
                         type='number'
                     >
                     </TextField>

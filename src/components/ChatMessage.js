@@ -4,8 +4,6 @@ import cx from 'clsx';
 import { Avatar, Grid, ImageList, ImageListItem, Typography } from '@mui/material';
 import { withStyles } from '@mui/styles';
 import ChatMessageStyle from './ChatMessageStyle'
-import { useDispatch } from 'react-redux';
-// import { openImageModal } from '../../Redux/actions';
 import { Box } from '@mui/system';
 import RequestChatCard from './RequestChatCard';
 import PaymentChatCard from './PaymentChatCard';
@@ -25,8 +23,8 @@ const ChatMessage = withStyles(ChatMessageStyle, { name: 'ChatMsg' })(props => {
     images,
     isRequest,
     isAcceptance,
-    handleSendRejectionMessage,
     isLast,
+    handleClickJoin
   } = props;
   const attachClass = index => {
     if (index === 0) {
@@ -38,11 +36,6 @@ const ChatMessage = withStyles(ChatMessageStyle, { name: 'ChatMsg' })(props => {
     return '';
   };
 
-  // const dispatch = useDispatch();
-  // function handlePhotoModal(images, index) {
-  //   dispatch(openImageModal(images,index))
-  // }
-  
   return (
     <>
     <Grid
@@ -61,7 +54,7 @@ const ChatMessage = withStyles(ChatMessageStyle, { name: 'ChatMsg' })(props => {
           />
         </Grid>
       )}
-      <Grid item xs={side === 'right' ? 14 : 12} sx ={{}}>
+      <Grid item xs={side === 'right' ? 14 : 11} sx ={{}}>
         {/* {images !== null && images.length > 0 &&
           <Box sx ={{display : 'flex', justifyContent : `${side === 'right' ? 'flex-end' : 'flex-start'}`}}>
           <ImageList cols = {images.length > 1 ? 2 : 1} rows = {images.length >= 3 ? 2 : 1} sx={{width: 204, height : `${images.length >= 3 ? 204 : 102}`, overflow : 'hidden'}}>
@@ -107,10 +100,10 @@ const ChatMessage = withStyles(ChatMessageStyle, { name: 'ChatMsg' })(props => {
                   </Typography>
                   : 
                   <Box sx ={{display : 'flex', justifyContent : `${side === 'right' ? 'flex-end' : 'flex-start'}`}}>
-                  <PaymentChatCard orderId={messages[0].orderId} showButtons = {side === 'left' ? true : false} isLast={isLast} handleRejection={handleSendRejectionMessage}/>
+                  <PaymentChatCard orderId={messages[0].orderId} showButtons = {side === 'left' ? true : false} isLast={isLast} handleClickJoin={handleClickJoin}/>
                   </Box>
               : <Box sx ={{display : 'flex', justifyContent : `${side === 'right' ? 'flex-end' : 'flex-start'}`}}>
-                <RequestChatCard orderId={messages[0].orderId} showButtons = {side === 'left' ? true : false} isLast={isLast} handleRejection={handleSendRejectionMessage}/>
+                <RequestChatCard orderId={messages[0].orderId} showButtons = {side === 'left' ? true : false} isLast={isLast}/>
                 </Box>}
             </div>
           );
@@ -135,7 +128,7 @@ ChatMessage.propTypes = {
   isRequest : PropTypes.bool,
   isAcceptance : PropTypes.bool,
   isLast : PropTypes.bool,
-  handleSendRejectionMessage : PropTypes.func,
+  handleClickJoin : PropTypes.func,
 };
 ChatMessage.defaultProps = {
   avatar: '',
@@ -150,7 +143,7 @@ ChatMessage.defaultProps = {
   isRequest : false,
   isAcceptance : false,
   isLast : false,
-  handleSendRejectionMessage : () => ({}),
+  handleClickJoin : () => ({}),
 };
 
 export default ChatMessage;
