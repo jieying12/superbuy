@@ -119,7 +119,7 @@ export default function GroupbuyDetails() {
         await hostChatRef.update({
           [combinedId + ".userInfo"]: {
             uid: user.uid,
-            displayName: user.displayName,
+            displayName: 'buyer',
             photoURL: '',
           },
           [combinedId + ".isGroupChat"]: false,
@@ -224,7 +224,7 @@ export default function GroupbuyDetails() {
         await hostChatRef.update({
           [combinedId + ".userInfo"]: {
             uid: user.uid,
-            displayName: user.displayName,
+            displayName: 'buyer',
             photoURL: '',
           },
           [combinedId + ".lastMessage"]: {
