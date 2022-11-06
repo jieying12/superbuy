@@ -93,7 +93,7 @@ export default function GroupbuyListings({ groupbuys }) {
               </div>
             </div>
             <div className='basket_values' style={{ display: "flex", paddingTop: "8px", paddingBottom: "10px" }}>
-              <AiOutlineHeart /> <h6>&nbsp;{Math.floor(Math.random() * 40)} likes</h6>
+              <AiOutlineHeart onClick={() => alert('like')} /> <h6>&nbsp;{Math.floor(Math.random() * 40)} likes</h6>
             </div>
             <div className='secondRow' style={{ display: "flex", justifyContent: "space-between" }}>
               <div className='countdown' style={{ color: "#5539a8", backgroundColor: "#e8ecef", width: "130px", height: "25px", borderRadius: "10px" }} >
