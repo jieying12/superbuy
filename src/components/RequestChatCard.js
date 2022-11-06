@@ -281,7 +281,7 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
                         name='fee'
                         color="secondary"
                         onChange={(e) => setFee(e.target.value)}
-                        value={FeedOutlined}
+                        value={fee}
                         type='number'
                     >
                     </TextField>
