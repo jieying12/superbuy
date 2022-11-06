@@ -12,6 +12,7 @@ import { useAuthContext } from '../../hooks/useAuthContext'
 import { v4 as uuid } from "uuid";
 import { getDatabase, ref, child, push, update } from "firebase/database";
 import { useParams } from "react-router-dom"
+import { REQUEST_PENDING_APPROVAL, REQUEST_ACCEPTED, ORDER_PENDING_PAYMENT, ORDER_PAID, COMPLETED, ORDER_DELIVERED} from "../../constants";
 
 const groupBuyColumns = [
     { field: 'id', headerName: 'ID', width: 70 },
@@ -29,14 +30,14 @@ function StatusConfirmationDialog({ show, setShow, status, selectedRows }) {
 
     const updateStatus = () => {
         console.log("updating")
-        let ref = db.collection('orders')
-        const postData = {
-            status: status
-        };
+        //let ref = db.collection('orders')
+       // const postData = {
+        //    status: status
+       // };
         const updates = {};
         for (let i = 0; i < selectedRows.length; i++) {
             console.log(selectedRows[i]["orderId"])
-            updates['/orders/' + selectedRows[i]["orderId"]] = postData
+            //updates['/orders/' + selectedRows[i]["orderId"]] = postData
             const userRef = db.collection('orders').doc(selectedRows[i]["orderId"])
             const addedUser = userRef.update(
                 {
@@ -80,15 +81,11 @@ function StatusConfirmationDialog({ show, setShow, status, selectedRows }) {
         setShow(false);
     };
     useEffect(() => {
-        //console.log(status)
-        // console.log(selectedRows)
-        // console.log(newRows)
         selectedRows.map((n) => {
             console.log(n)
             n["newStatus"] = status
             return n
         })
-        //setNewRows(current => [...current, 'Carl']);
     });
 
     return (

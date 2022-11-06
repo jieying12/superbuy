@@ -115,14 +115,11 @@ export default function GroupbuyOrderListing() {
         setAnchorEl(null);
         const { myValue } = e.currentTarget.dataset;
         setStatus(myValue)
-        // console.log(myValue)
-        // console.log(selectedRows)
         setShow(true)
     };
     return (
         <>
             <Navbar />
-            order in groupbuy management
             <Box sx={{ width: '100%', paddingLeft: '10px', marginTop: '25px' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: '25px' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" textColor='secondary' TabIndicatorProps={{ style: { background: 'purple' } }}>
