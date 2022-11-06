@@ -152,7 +152,7 @@ export default function GroupbuyDetails() {
         const addedOrder = await orderRef.add(
           {
             buyerId: user.uid,
-            buyerDisplayName: 'Tim Cook',
+            buyerDisplayName: user.displayName,
             buyerEmail: user.email,
             hostId: hostId,
             groupBuyId: id,
