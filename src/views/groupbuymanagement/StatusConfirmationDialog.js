@@ -6,7 +6,10 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { DataGrid } from '@mui/x-data-grid';
-import { db } from "../../firebase/firebase-config"
+import { db, timestamp } from "../../firebase/firebase-config"
+import firebase from "firebase/app"
+import { useAuthContext } from '../../hooks/useAuthContext'
+import { v4 as uuid } from "uuid";
 import { getDatabase, ref, child, push, update } from "firebase/database";
 import { useParams } from "react-router-dom"
 
@@ -22,6 +25,8 @@ const groupBuyColumns = [
 function StatusConfirmationDialog({ show, setShow, status, selectedRows }) {
     const [open, setOpen] = React.useState(false);
     const [newRows, setNewRows] = React.useState(selectedRows);
+    const { user } = useAuthContext() // host
+
     const updateStatus = () => {
         console.log("updating")
         let ref = db.collection('orders')
@@ -37,6 +42,35 @@ function StatusConfirmationDialog({ show, setShow, status, selectedRows }) {
                 {
                     status: status
                 });
+
+            const combinedId = selectedRows[i]["buyerId"] > user.uid ? selectedRows[i]["buyerId"] + user.uid : user.uid + selectedRows[i]["buyerId"];
+            db.collection('chats').doc(combinedId).update({
+                messages: firebase.firestore.FieldValue.arrayUnion({
+                    id: uuid(),
+                    text: 'The host has updated the order status for ' + selectedRows[i]["productName"] + ': ' + status,
+                    senderId: user.uid,
+                    isRequest: false,
+                    isAcceptance: false,
+                    orderId: selectedRows[i]["orderId"],
+                    date: timestamp.fromDate(new Date()),
+                }),
+            });
+        
+            const buyerChatRef = db.collection('userChats').doc(selectedRows[i]["buyerId"])
+            buyerChatRef.update({
+                [combinedId + ".lastMessage"]: {
+                    text: 'The host has updated the order status for ' + selectedRows[i]["productName"] + ': ' + status,
+                },
+                [combinedId + ".date"]: timestamp.fromDate(new Date()),
+            });
+    
+            const hostChatRef = db.collection('userChats').doc(user.uid)
+            hostChatRef.update({
+                [combinedId + ".lastMessage"]: {
+                    text: 'The host has updated the order status for ' + selectedRows[i]["productName"] + ': ' + status,
+                },
+                [combinedId + ".date"]: timestamp.fromDate(new Date()),
+            });
         }
         console.log(updates)
         //update(ref(db), updates);
