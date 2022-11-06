@@ -1,7 +1,7 @@
 import React from "react"
 import { useAuthContext } from '../../hooks/useAuthContext'
 import { useEffect, useState } from "react"
-import { db } from "../../firebase/firebase-config"
+import { db, doc, getDoc} from "../../firebase/firebase-config"
 import Button from '@mui/material/Button';
 import { DataGrid, GridToolbar} from '@mui/x-data-grid';
 import { useNavigate } from 'react-router-dom';
@@ -17,7 +17,7 @@ const groupBuyColumns = [
   { field: 'status', headerName: 'Status', width: 200 },
 ]
 
-export default function GroupbuyOrderListings({status}) {
+export default function GroupbuyOrderListings({status, setSelectedRows}) {
     const { id } = useParams()
     const [ row, setRowTest] = React.useState(() => [
     ]);
@@ -36,7 +36,9 @@ export default function GroupbuyOrderListings({status}) {
       var groupbuyRow = []
       var rowObj = {}
       for (let i = 0; i < results.length; i++) {
-          if (results[i]["status"] == status) {
+        for (let j = 0; j < status.length;j++) {
+          if (results[i]["status"] == status[j]) {
+            rowObj["orderId"] = results[i]["id"]
             rowObj["id"] = i + 1
             rowObj["buyerId"] = results[i]["buyerId"]
             rowObj["name"] = results[i]["buyerDisplayName"]
@@ -46,7 +48,10 @@ export default function GroupbuyOrderListings({status}) {
             rowObj["createDate"] = new Date(results[i]["createdAt"]["seconds"] * 1000)
             groupbuyRow.push(rowObj)
             rowObj = {}
+            break
           }
+        }
+          
       }
       setRowTest(groupbuyRow)
       setError(null)
@@ -64,7 +69,11 @@ export default function GroupbuyOrderListings({status}) {
     console.log(`Selected buyerId: "${params.row.buyerId}"`);
     //navigate(`/order/${params.row.firebaseId}`);
   };
+  // function setSelection(selectedRows){
+  //   console.log(selectedRows)
 
+  // }
+  //const [selectedRows, setSelectedRows] = React.useState([]);
 
   return (
     <>
@@ -86,6 +95,17 @@ export default function GroupbuyOrderListings({status}) {
             },
           }}
           onRowClick={handleRowClick}
+          // onSelectionChange={(newSelection) => {
+          //   setSelection(newSelection.rows);
+          // }}
+          onSelectionModelChange={(ids) => {
+            const selectedIDs = new Set(ids);
+            const selectedRows = row.filter((row) =>
+              selectedIDs.has(row.id),
+            );
+            setSelectedRows(selectedRows);
+            //console.log(selectedRows)
+          }}
         />
       </div>
     </>
