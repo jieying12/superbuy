@@ -9,9 +9,10 @@ import { db, timestamp } from "../../firebase/firebase-config"
 import firebase from "firebase/app"
 import { FiShare } from "react-icons/fi"
 import { AiOutlineHeart, AiFillStar } from "react-icons/ai"
-import { Card, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Divider, Grid, Icon, IconButton, List, ListItem, ListItemIcon, ListItemText, Modal, TextField, Typography, } from "@mui/material";
+import { Dialog, DialogTitle, Grid, TextField, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import CustomButton from '../../components/CustomButton'
+import { Link } from "react-router-dom"
 
 import { v4 as uuid } from "uuid";
 import { MdStarRate } from "react-icons/md"
@@ -47,6 +48,32 @@ export default function GroupbuyDetails() {
   const [quantity, setQuantity] = useState(1)
   const [productNameError, setProductNameError] = useState(null)
   const [quantityError, setQuantityError] = useState(null)
+  const [buyerRequested, setBuyerRequested] = useState(false)
+  const [buyerRequestsError, setBuyerRequestsError] = useState(null)
+
+  useEffect(() => {
+    if (user) {
+      let groupBuyRequests = db.collection('orders').where('groupBuyId', '==', id)
+      let buyerRequests = groupBuyRequests.where('buyerId', '==', user.uid)
+
+      const unsubscribe = buyerRequests.onSnapshot(snapshot => {
+        let results = []
+        snapshot.docs.forEach(doc => {
+          results.push({ ...doc.data(), id: doc.id })
+        });
+
+        if (results.length !== 0) {
+          setBuyerRequested(true)
+        }
+        setBuyerRequestsError(null)
+      }, buyerRequestsError => {
+        console.log(buyerRequestsError)
+        setBuyerRequestsError('groupbuys failed to be fetched')
+      })
+
+      return () => unsubscribe()
+    }
+  }, [])
 
   const invalidButtonStyle = {
     textTransform: 'none',
@@ -62,7 +89,7 @@ export default function GroupbuyDetails() {
   const handleTest = async () => {
     navigate('/chat')
   }
-  const handleChat = async () => {
+  const handleChatWithHost = async () => {
     const hostId = document.createdBy.id
     const hostUsername = document.createdBy.displayName
     const combinedId =
@@ -341,11 +368,30 @@ export default function GroupbuyDetails() {
                 <AiFillStar />
                 <label htmlFor=''>(23)</label>
               </div>
-              <div className='qty'>
-                <button className='button' style={{ marginLeft: "-5px", cursor: "pointer" }} onClick={() => setIsModalOpen(true)}>
-                  Request
-                </button>
-              </div>
+              {user && user.displayName === document.createdBy.displayName ?
+                // hosts viewing their own listings
+                <div className='qty'>
+                  <button className='button' style={{ marginLeft: "-5px", cursor: "pointer" }} onClick={() => navigate("/order")}>
+                    Manage
+                  </button>
+                </div>
+                :
+                (buyerRequested === true ?
+                  // buyer has submitted a request for this listing before
+                  <div className='qty'>
+                    <button className='button' style={{ marginLeft: "-5px", cursor: "pointer" }} onClick={() => handleChatWithHost()} >
+                      View Chat
+                    </button>
+                  </div> :
+                  // buyer has not submitted a request for this listing before
+                  // or user has not logged in
+                  <div className='qty'>
+                    <button className='button' style={{ marginLeft: "-5px", cursor: "pointer" }} onClick={() => setIsModalOpen(true)}>
+                      Request
+                    </button>
+                  </div>
+                )
+              }
               {/* <div className='desc'>
                 <h4>PRODUCTS DESCRIPTION</h4>
                 <p>{document.description}</p>
