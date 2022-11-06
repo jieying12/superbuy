@@ -4,6 +4,7 @@ import { db } from "../../firebase/firebase-config"
 
 import { Heading } from "../../components/Heading"
 import GroupbuyListings from '../../components/GroupbuyListings'
+import InContainerLoading from '../../components/InContainerLoading'
 
 export default function TrendingSection() {
   const { user } = useAuthContext()
@@ -31,6 +32,10 @@ export default function TrendingSection() {
     return () => unsubscribe()
 
   }, [])
+
+  if (!groupbuys) {
+    return <InContainerLoading />
+  }
 
   return (
     <>
