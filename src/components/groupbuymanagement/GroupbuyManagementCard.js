@@ -58,7 +58,7 @@ export default function GroupbuyManagementCard({show, setShow, selectedRows}) {
                         </DialogTitle>
                         <DialogContent sx={{ padding: 0 }}>
                             <DialogContentText id="alert-dialog-description">
-                                Group buy Name: {groupbuyInfo["title"]}
+                                Group buy Name: {groupbuyInfo != undefined ?groupbuyInfo["title"] :null}
                             </DialogContentText>
                             <>
                                 <TextField
