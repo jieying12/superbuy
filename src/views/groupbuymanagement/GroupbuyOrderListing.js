@@ -152,15 +152,15 @@ export default function GroupbuyOrderListing() {
                     open={open}
                     onClose={handleClose}
                 >
-                    <MenuItem onClick={handleClose} disableRipple data-my-value={ORDER_PENDING_PAYMENT}>
-                        Pending Payment
+                    <MenuItem onClick={handleClose} disableRipple data-my-value={REQUEST_ACCEPTED}>
+                        Accepted
                     </MenuItem>
                     <Divider sx={{ my: 0.5 }} />
                     <MenuItem onClick={handleClose} disableRipple data-my-value={ORDER_PAID}>
                         Paid
                     </MenuItem>
                     <Divider sx={{ my: 0.5 }} />
-                    <MenuItem onClick={handleClose} disableRipple data-my-value={ITEM_DELIVER}>
+                    <MenuItem onClick={handleClose} disableRipple data-my-value={ORDER_DELIVERED}>
                         Delivered
                     </MenuItem>
                     <Divider sx={{ my: 0.5 }} />
