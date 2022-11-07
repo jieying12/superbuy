@@ -61,7 +61,7 @@ export default function GroupbuyManagementCard({show, setShow, selectedRows}) {
                                 Group buy Name: {groupbuyInfo != undefined ?groupbuyInfo["title"] :null}
                             </DialogContentText>
                             <>
-                                <TextField
+                                {/* <TextField
                                     margin="normal"
                                     fullWidth
                                     id='price'
@@ -72,7 +72,7 @@ export default function GroupbuyManagementCard({show, setShow, selectedRows}) {
                                     value={price}
                                     type='number'
                                 >
-                                </TextField>
+                                </TextField> */}
                                 <TextField
                                     margin="normal"
                                     fullWidth
@@ -85,7 +85,7 @@ export default function GroupbuyManagementCard({show, setShow, selectedRows}) {
                                     type='number'
                                 >
                                 </TextField>
-                                <TextField
+                                {/* <TextField
                                     margin="normal"
                                     fullWidth
                                     id='postage'
@@ -120,7 +120,7 @@ export default function GroupbuyManagementCard({show, setShow, selectedRows}) {
                                     value={total}
                                     type='number'
                                 >
-                                </TextField>
+                                </TextField> */}
                             </>
                         </DialogContent>
                         <DialogActions sx={{ marginBottom: '16px' }}>

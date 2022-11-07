@@ -67,13 +67,7 @@ export default function GroupbuyOrderListings({status, setSelectedRows}) {
   const navigate = useNavigate();
   const handleRowClick = (params) => {
     console.log(`Selected buyerId: "${params.row.buyerId}"`);
-    //navigate(`/order/${params.row.firebaseId}`);
   };
-  // function setSelection(selectedRows){
-  //   console.log(selectedRows)
-
-  // }
-  //const [selectedRows, setSelectedRows] = React.useState([]);
 
   return (
     <>
@@ -95,16 +89,12 @@ export default function GroupbuyOrderListings({status, setSelectedRows}) {
             },
           }}
           onRowClick={handleRowClick}
-          // onSelectionChange={(newSelection) => {
-          //   setSelection(newSelection.rows);
-          // }}
           onSelectionModelChange={(ids) => {
             const selectedIDs = new Set(ids);
             const selectedRows = row.filter((row) =>
               selectedIDs.has(row.id),
             );
             setSelectedRows(selectedRows);
-            //console.log(selectedRows)
           }}
         />
       </div>
