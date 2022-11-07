@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useAuthContext } from '../../hooks/useAuthContext'
 
-import { Button, Container, Box, Typography, TextField, Grid, Modal, Chip, ImageList, ImageListItem, ImageListItemBar, IconButton, Menu, MenuItem, CircularProgress, CardContent, Card, FormControl } from '@mui/material'
+import { Button, Container, Box, Typography, TextField, Grid, Modal, Chip, ImageList, ImageListItem, ImageListItemBar, IconButton, Menu, MenuItem, CircularProgress, CardContent, Card, FormControl, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -55,6 +55,7 @@ export default function CreateGroupbuyForm() {
     // const [isCancelled, setIsCancelled] = useState(false)
     const [error, setError] = useState(null)
     const [success, setSuccess] = useState(null)
+    const[isModalOpen, setIsModalOpen] = useState(false)
 
     const [imageList, setImageList] = useState([])
     const [urls, setUrls] = useState([]);
@@ -64,6 +65,7 @@ export default function CreateGroupbuyForm() {
     const [category, setCategory] = useState('')
     const [fee, setFee] = useState('')
     const [shipping, setShipping] = useState('')
+    const[postage, setPostage] = useState("");
     const [min, setMin] = useState('')
     const [tag, setTag] = useState('')
     const [tagList, setTagList] = useState([])
@@ -171,17 +173,17 @@ export default function CreateGroupbuyForm() {
             return
         }
 
-        // const createdBy = { 
-        //     displayName: user.displayName, 
-        //     photoURL: user.photoURL,
-        //     id: user.uid
-        //   }
+        const createdBy = { 
+            displayName: user.displayName, 
+            photoURL: user.photoURL,
+            id: user.uid
+          }
       
         // testing
-        const createdBy = { 
-          displayName: 'jieying', 
-          id: 1
-        }
+        // const createdBy = { 
+        //   displayName: 'jieying', 
+        //   id: 1
+        // }
 
         const groupbuy = {
             title,
@@ -189,6 +191,7 @@ export default function CreateGroupbuyForm() {
             category,
             fee,
             shipping,
+            postage,
             min,
             deadline: timestamp.fromDate(new Date(deadline)),
             tags : [],
@@ -204,7 +207,7 @@ export default function CreateGroupbuyForm() {
             const addedDocument = await ref.add({ ...groupbuy, createdAt })
             handleUpload(addedDocument.id);
             await db.collection('chats').doc(addedDocument.id).set({ messages: [] });
-            const hostChatRef = db.collection('userChats').doc('KTHeOXC6mBT5oH0nz95Uslxph1u2') // to be chnaged to user.uid
+            const hostChatRef = db.collection('userChats').doc(user.uid) 
             await hostChatRef.update({
             [addedDocument.id + ".groupBuyId"]: addedDocument.id,
             [addedDocument.id + ".groupBuyName"]: title,
@@ -215,6 +218,7 @@ export default function CreateGroupbuyForm() {
 
             console.log(urls);
             setIsPending(false);
+            setIsModalOpen(true);
             setSuccess(true);
             setError(null);
         } catch (err) {
@@ -229,7 +233,7 @@ export default function CreateGroupbuyForm() {
     return (
         <>
         <Navbar />
-        <Container maxWidth={false} disableGutters style={{ background: '#EDF6EE' }}>
+        <Container maxWidth={false} disableGutters>
             <Button onClick={() => { navigate(-1) }}>
                 <ArrowBackIcon fontSize='large' color='secondary' />
             </Button>
@@ -237,7 +241,7 @@ export default function CreateGroupbuyForm() {
             <Box>
                 <FormControl sx={{ width: '100%' }}>
                     <Box>
-                        <Typography variant='h7' gutterBottom>Photo</Typography>
+                        <Typography variant='h7' gutterBottom>Photo(s)</Typography>
                     </Box>
                     <Box sx={{ overflowX: 'scroll', display: 'flex' }}>
                         <Box sx={{ display: 'flex', marginBottom: 1 }}>
@@ -251,7 +255,7 @@ export default function CreateGroupbuyForm() {
                         </Box>
 
                         <label htmlFor='add-image'>
-                            <img src={AddImage} style={{ maxWidth: 150, minWidth: 150, maxHeight: 150, minHeight: 150, cursor: 'pointer' }} alt='add' />
+                            <img src={AddImage} style={{ borderRadius: 25, maxWidth: 150, minWidth: 150, maxHeight: 150, minHeight: 150, cursor: 'pointer' }} alt='add' />
                         </label>
                         <ImageList className={styles.imageList} cols={2.5}>
                             {imageList.length > 0 &&
@@ -331,7 +335,7 @@ export default function CreateGroupbuyForm() {
                         ))}
                     </Menu>
 
-                    <Typography variant='h7'>Service Fee</Typography>
+                    <Typography variant='h7'>Service Fee (SGD)</Typography>
                     <TextField
                         margin="normal"
                         required
@@ -343,7 +347,7 @@ export default function CreateGroupbuyForm() {
                         error={formError}
                         helperText={formError}
                     />
-                    <Typography variant='h7'>Estimated Shipping Cost</Typography>
+                    <Typography variant='h7'>Estimated Shipping Cost (SGD)</Typography>
                     <TextField
                         margin="normal"
                         required
@@ -355,7 +359,19 @@ export default function CreateGroupbuyForm() {
                         error={formError}
                         helperText={formError}
                     />
-                    <Typography variant='h7'>Minimum number of buyers</Typography>
+                    <Typography variant='h7'>Local Postage (SGD)</Typography>
+                    <TextField
+                        margin="normal"
+                        required
+                        style={{ width: '100%' }}
+                        name="postage"
+                        value={postage}
+                        color="secondary"
+                        onChange={(e) => setPostage(e.target.value)}
+                        error={formError}
+                        helperText={formError}
+                    />
+                    <Typography variant='h7'>Minimum basket value</Typography>
                     <TextField
                         margin="normal"
                         required
@@ -383,7 +399,7 @@ export default function CreateGroupbuyForm() {
                         sx={{ marginBottom: 2 }}
                         />
                     </LocalizationProvider>
-                    <Typography variant='h7'>Tags</Typography>
+                    {/* <Typography variant='h7'>Tags</Typography>
                     <Grid container spacing={1}>
                         {tagList.length > 0 &&
                             Array.from(tagList).map((tag, index) =>
@@ -407,10 +423,10 @@ export default function CreateGroupbuyForm() {
                                 <AddCircleOutlineIcon color='secondary' fontSize='large' />
                             </Button>
                         </Grid>
-                    </Grid>
+                    </Grid> */}
                    
                     
-                    <Grid container spacing={1}>
+                    <Grid container spacing={1} style={{marginTop:20}}>
                         <Grid item xs={6}>
                             <CustomButton
                                 variant="contained"
@@ -491,6 +507,29 @@ export default function CreateGroupbuyForm() {
                     </CardContent>
                 </Card>
             </Modal>
+            <Dialog
+                open={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                aria-labelledby="alert-dialog-sucess"
+                aria-describedby="alert-dialog-sucess"
+                onBackdropClick = {() => setIsModalOpen(false)}
+            >
+                <Box sx={{backgroundColor :'primary.main', alignItems: 'centre', display:'flex', flexDirection:'row', maxWidth: '450px'}}>
+                    <Box sx={{display : 'flex', justifyContent:'center', width: '5%', minWidth: '40px', paddingTop : '16px'}}>
+                    </Box>
+                    <Box>
+                        <DialogTitle id="success" sx={{textAlign: 'center', color :'secondary.main', paddingLeft: 0, paddingRight: 0}}>
+                            Success!
+                        </DialogTitle>
+                        <DialogContent sx={{textAlign: 'center', paddingBottom: 5}}>
+                        <DialogContentText id="alert-dialog-description">
+                            Visit Chat to view your group chat.
+                        </DialogContentText>
+                        </DialogContent>
+                    </Box>
+                    <Box sx={{display : 'flex', justifyContent:'center', width: '15%', minWidth: '64px', paddingTop : '16px'}}/>
+                </Box>
+            </Dialog>
         </Container>
         </Container>
         </>
