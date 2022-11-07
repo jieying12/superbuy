@@ -1,3 +1,5 @@
+import * as React from "react";
+import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import { useContext } from "react"
 import { useDocument } from '../../hooks/useDocument'
@@ -7,6 +9,10 @@ import { db, timestamp } from "../../firebase/firebase-config"
 import firebase from "firebase/app"
 import { FiShare } from "react-icons/fi"
 import { AiOutlineHeart, AiFillStar } from "react-icons/ai"
+import { Dialog, DialogTitle, Grid, TextField, Typography } from "@mui/material";
+import { Box } from "@mui/system";
+import CustomButton from '../../components/CustomButton'
+import { Link } from "react-router-dom"
 
 import { v4 as uuid } from "uuid";
 import { MdStarRate } from "react-icons/md"
@@ -27,10 +33,63 @@ export default function GroupbuyDetails() {
   const { document, error } = useDocument('groupbuys', id)
   const navigate = useNavigate()
 
+  // const fields = ['productName', 'productUrl', 'requestDetails', 'quantity']
+  // const icons = {
+  //   productName: <DriveFileRenameOutline color='secondary' />,
+  //   productUrl: <Link color='secondary' />,
+  //   requestDetails: <AddCircleOutlineOutlinedIcon color='secondary' />,
+  //   quantity: <AddCircleOutlineOutlinedIcon color='secondary' />,
+  // }
+
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [productName, setProductName] = useState('')
+  const [productUrl, setProductUrl] = useState('')
+  const [requestDetails, setRequestDetails] = useState('')
+  const [quantity, setQuantity] = useState(1)
+  const [productNameError, setProductNameError] = useState(null)
+  const [quantityError, setQuantityError] = useState(null)
+  const [buyerRequested, setBuyerRequested] = useState(false)
+  const [buyerRequestsError, setBuyerRequestsError] = useState(null)
+
+  useEffect(() => {
+    if (user) {
+      let groupBuyRequests = db.collection('orders').where('groupBuyId', '==', id)
+      let buyerRequests = groupBuyRequests.where('buyerId', '==', user.uid)
+
+      const unsubscribe = buyerRequests.onSnapshot(snapshot => {
+        let results = []
+        snapshot.docs.forEach(doc => {
+          results.push({ ...doc.data(), id: doc.id })
+        });
+
+        if (results.length !== 0) {
+          setBuyerRequested(true)
+        }
+        setBuyerRequestsError(null)
+      }, buyerRequestsError => {
+        console.log(buyerRequestsError)
+        setBuyerRequestsError('groupbuys failed to be fetched')
+      })
+
+      return () => unsubscribe()
+    }
+  }, [])
+
+  const invalidButtonStyle = {
+    textTransform: 'none',
+    color: 'white',
+  }
+
+  const validButtonStyle = {
+    background: "#5EC992",
+    textTransform: 'none',
+    color: 'white',
+  }
+
   const handleTest = async () => {
     navigate('/chat')
   }
-  const handleChat = async () => {
+  const handleChatWithHost = async () => {
     const hostId = document.createdBy.id
     const hostUsername = document.createdBy.displayName
     const combinedId =
@@ -85,6 +144,23 @@ export default function GroupbuyDetails() {
 
 
   const handleRequest = async () => {
+    setProductNameError(null)
+    setQuantityError(null)
+
+    if (!productName) {
+      setProductNameError('Please enter the product name.')
+      return
+    }
+
+    if (isNaN(+quantity)) {
+      setQuantityError('Please enter a numerical value.')
+      return
+    }
+
+    if (!quantity) {
+      setQuantityError('Please enter the product quantity.')
+    }
+
     const hostId = document.createdBy.id
     const hostUsername = document.createdBy.displayName
     const combinedId =
@@ -103,14 +179,15 @@ export default function GroupbuyDetails() {
         const addedOrder = await orderRef.add(
           {
             buyerId: user.uid,
-            buyerDisplayName: 'buyer',
+            buyerDisplayName: user.displayName,
             buyerEmail: user.email,
             hostId: hostId,
             groupBuyId: id,
             chatId: combinedId,
-            productName: 'HIGH NECK HIGH SUPPORT SPORTS BRA',
-            productUrl: 'https://eu.gymshark.com/products/gymshark-high-neck-high-support-sports-bra-iguana-green-aw22',
-            requestDetails: 'SIZE M, QTY X 2',
+            productName: productName,
+            productUrl: productUrl,
+            requestDetails: requestDetails,
+            quantity: quantity,
             status: 'PENDING_APPROVAL',
             createdAt: timestamp.fromDate(new Date())
           });
@@ -209,9 +286,9 @@ export default function GroupbuyDetails() {
                 </h1>
               </div>
               <div className='marketing_feedback' style={{ display: "flex", paddingTop: "10px" }}>
-                <button className='button' style={{ width: "80px" }}><FiShare />&nbsp;Share</button>
+                <button className='button' style={{ width: "80px", cursor: "pointer" }}><FiShare />&nbsp;Share</button>
                 &nbsp;&nbsp;&nbsp;
-                <button className='button' style={{ width: "90px" }}><AiOutlineHeart />&nbsp;24 Likes</button>
+                <button className='button' style={{ width: "90px", cursor: "pointer" }}><AiOutlineHeart />&nbsp;24 Likes</button>
               </div>
               <div className='progress_bar' style={{ paddingTop: "30px", width: "65%" }}>
                 <ProgressBar completed={50} bgColor="#00ac4f" height="10px" />
@@ -291,11 +368,30 @@ export default function GroupbuyDetails() {
                 <AiFillStar />
                 <label htmlFor=''>(23)</label>
               </div>
-              <div className='qty'>
-                <button className='button' style={{ marginLeft: "-5px" }} onClick={() => handleRequest()}>
-                  Request
-                </button>
-              </div>
+              {user && user.displayName === document.createdBy.displayName ?
+                // hosts viewing their own listings
+                <div className='qty'>
+                  <button className='button' style={{ marginLeft: "-5px", cursor: "pointer" }} onClick={() => navigate("/order")}>
+                    Manage
+                  </button>
+                </div>
+                :
+                (buyerRequested === true ?
+                  // buyer has submitted a request for this listing before
+                  <div className='qty'>
+                    <button className='button' style={{ marginLeft: "-5px", cursor: "pointer" }} onClick={() => handleChatWithHost()} >
+                      View Chat
+                    </button>
+                  </div> :
+                  // buyer has not submitted a request for this listing before
+                  // or user has not logged in
+                  <div className='qty'>
+                    <button className='button' style={{ marginLeft: "-5px", cursor: "pointer" }} onClick={() => setIsModalOpen(true)}>
+                      Request
+                    </button>
+                  </div>
+                )
+              }
               {/* <div className='desc'>
                 <h4>PRODUCTS DESCRIPTION</h4>
                 <p>{document.description}</p>
@@ -322,6 +418,105 @@ export default function GroupbuyDetails() {
           </div>
         </section>
       </article>
+      <Dialog
+        open={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        aria-labelledby="alert-dialog-request-rejection"
+        aria-describedby="alert-dialog-request-rejection"
+        onBackdropClick={() => setIsModalOpen(false)}>
+        <Box sx={{ backgroundColor: 'primary.main', width: '600px' }}>
+          <DialogTitle id="submit-request" sx={{ display: "block", marginLeft: "auto", marginRight: "auto" }}>
+            Submit Order Request
+          </DialogTitle>
+
+          <Box sx={{ backgroundColor: 'primary.main', width: '550px', display: "block", marginLeft: "auto", marginRight: "auto" }}>
+            <Typography variant='h7' >Product Name(s)*</Typography>
+            <TextField
+              margin="normal"
+              required
+              style={{ width: "100%" }}
+              name="productName"
+              value={productName}
+              color="secondary"
+              onChange={(e) => setProductName(e.target.value)}
+              error={productNameError}
+              helperText={productNameError}
+            />
+            <div style={{ padding: "10px" }}></div>
+            <Typography variant='h7' >Product URL(s)</Typography>
+            <TextField
+              margin="normal"
+              required
+              style={{ width: "100%" }}
+              name="productUrl"
+              value={productUrl}
+              color="secondary"
+              onChange={(e) => setProductUrl(e.target.value)}
+            // error={formError}
+            // helperText={formError}
+            />
+            <div style={{ padding: "10px" }}></div>
+            <Typography variant='h7' >Product Details</Typography>
+            <TextField
+              margin="normal"
+              required
+              style={{ width: "100%" }}
+              name="requestDetails"
+              value={requestDetails}
+              color="secondary"
+              onChange={(e) => setRequestDetails(e.target.value)}
+            // error={formError}
+            // helperText={formError}
+            />
+            <div style={{ padding: "10px" }}></div>
+            <Typography variant='h7' >Quantity*</Typography>
+            <TextField
+              margin="normal"
+              required
+              style={{ width: "100%" }}
+              name="quantity"
+              value={quantity}
+              color="secondary"
+              onChange={(e) => setQuantity(e.target.value)}
+              error={quantityError}
+              helperText={quantityError}
+            />
+
+            <div style={{ padding: "10px" }}></div>
+            <Grid container spacing={1}>
+              <Grid item xs={6}>
+                <CustomButton
+                  variant="contained"
+                  fullWidth
+                  style={{
+                    background: "#CFD1D8",
+                    cursor: "pointer"
+                  }}
+                  onClick={() => setIsModalOpen(false)}
+                  sx={{ minHeight: '50px' }}
+                >
+                  <Typography>Cancel</Typography>
+                </CustomButton>
+
+              </Grid>
+              <Grid item xs={6}>
+                <CustomButton
+                  variant="contained"
+                  fullWidth
+                  color='secondary'
+                  sx={{ minHeight: '50px', cursor: "pointer" }}
+                  disabled={(error ? true : false)}
+                  style={(error ? invalidButtonStyle : validButtonStyle)}
+                  onClick={() => handleRequest()}
+                >
+                  <Typography>Request</Typography>
+                </CustomButton>
+              </Grid>
+              <div style={{ padding: "10px" }}></div>
+            </Grid>
+          </Box>
+        </Box>
+      </Dialog>
     </>
   )
 }

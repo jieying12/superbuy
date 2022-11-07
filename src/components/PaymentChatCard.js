@@ -83,7 +83,8 @@ export default function PaymentChatCard({orderId, showButtons = false, isLast, h
 
     const handleOnPayment = async () => {
         dispatch({ type: "RESET" });
-        // history(-1);
+        // history(`/checkout/${gb.id}`);
+        history(`/checkout`);
     }
     
     return (

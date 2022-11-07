@@ -34,13 +34,13 @@ import {
             chatId: action.payload.groupBuyId,
             isGroupChat: true
           };
-        case 'RESET':
+        case "RESET":
           return { 
             user: {},
             group: '',
             chatId: "null",
             isGroupChat: false
-          }
+          };
   
         default:
           return state;
