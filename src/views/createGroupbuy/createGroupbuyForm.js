@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { useAuthContext } from '../../hooks/useAuthContext'
 
-import { Button, Container, Box, Typography, TextField, Grid, Modal, Chip, ImageList, ImageListItem, ImageListItemBar, IconButton, Menu, MenuItem, CircularProgress, CardContent, Card, FormControl, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
+import { Button, Container, Box, Typography, Tooltip, TextField, Grid, Modal, Chip, ImageList, ImageListItem, ImageListItemBar, IconButton, Menu, MenuItem, CircularProgress, CardContent, Card, FormControl, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material'
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -11,6 +11,7 @@ import CustomButton from '../../components/CustomButton';
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DatePicker from "@mui/lab/DatePicker";
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 
 import { db, timestamp, storage } from "../../firebase/firebase-config"
 import { useNavigate } from 'react-router-dom'
@@ -75,6 +76,7 @@ export default function CreateGroupbuyForm() {
     const [anchorEl, setAnchorEl] = useState(null)
     const [openTagModal, setOpenTagModal] = useState(false)
 
+    const tipText = 'Read about our escrow system:\n\nOur escrow system holds onto an upper limit of the overall purchase amount set by the host. The one-time payment from buyers will be used to account for all 3 payments. Excess funds are refunded automatically on time.\n\n*Please provide the maximum shipping fee that each of your buyer should pay upfront.'
 
     const handleOpen = (event) => {
         setOpenMenu(true);
@@ -240,6 +242,10 @@ export default function CreateGroupbuyForm() {
         <Container maxWidth="sm">
             <Box>
                 <FormControl sx={{ width: '100%' }}>
+                    <Box sx = {{textAlign: 'center', fontWeight : 600, fontSize : '1.3em', color : "black", paddingBottom: '15px'}}>
+                        <Typography variant='h7' gutterBottom>Create a Group Buy Listing</Typography>
+                        
+                    </Box>
                     <Box>
                         <Typography variant='h7' gutterBottom>Photo(s)</Typography>
                     </Box>
@@ -347,7 +353,14 @@ export default function CreateGroupbuyForm() {
                         error={formError}
                         helperText={formError}
                     />
-                    <Typography variant='h7'>Estimated Shipping Cost (SGD)</Typography>
+                    <Typography variant='h7'>Estimated Shipping Cost (SGD)
+                        <Tooltip 
+                            title={<span style={{ whiteSpace: 'pre-line' }}>{tipText}</span>}
+                            placement="right"
+                            >
+                            <InfoOutlinedIcon color="secondary" />
+                        </Tooltip>
+                    </Typography>
                     <TextField
                         margin="normal"
                         required

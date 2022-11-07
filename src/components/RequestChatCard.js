@@ -44,9 +44,9 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
     const[isModalOpen, setIsModalOpen] = useState(false)
     const[isAccept, setIsAccept] = useState(false)
     const[price, setPrice] = useState("");
-    const[shipping, setShipping] = useState("");
-    const[postage, setPostage] = useState("");
-    const[fee, setFee] = useState("");
+    // const[shipping, setShipping] = useState("");
+    // const[postage, setPostage] = useState("");
+    // const[fee, setFee] = useState("");
     const[total, setTotal] = useState("");
     const[rejectionReason, setRejectionReason] = useState("");
     const[isLoading,setIsLoading] = useState(false)
@@ -54,6 +54,11 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
 
     const messagesEndRef = React.useRef(null);
     const scrollToBottom = () => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block:"start" })}
+
+    const handlePriceCalculation = (e) => {
+        setPrice(e.target.value);
+        setTotal(parseInt(e.target.value) + parseInt(gb.shipping) + parseInt(gb.postage) + parseInt(gb.fee));
+    }
 
     const handleChangeRejection = (e) => {
         setRejectionReason(e.target.value);
@@ -78,9 +83,9 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
         const orderRef = db.collection('orders').doc(orderId)
         await orderRef.update({
             price,
-            shipping,
-            postage,
-            fee,
+            shipping: gb.shipping,
+            postage: gb.postage,
+            fee: gb.fee,
             total,
             status: REQUEST_ACCEPTED
         })
@@ -232,7 +237,7 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
                   </DialogTitle>
                   <DialogContent sx={{padding: 0}}>
                   <DialogContentText id="alert-dialog-description">
-                  {isAccept ? 'Please provide an upper limit of the overall estimated price (inclusive of shipping)' 
+                  {isAccept ? 'Please provide the product price in SGD' 
                   : `You are about to reject the request entitled: ${document.productName}. Please provide a reason.`}
                   </DialogContentText>
                   {isAccept ?
@@ -244,7 +249,7 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
                         label="Product Price"
                         name='price'
                         color="secondary"
-                        onChange={(e) => setPrice(e.target.value)}
+                        onChange={handlePriceCalculation}
                         value={price}
                         type='number'
                     >
@@ -256,9 +261,10 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
                         label="Shipping fee"
                         name='shipping'
                         color="secondary"
-                        onChange={(e) => setShipping(e.target.value)}
-                        value={shipping}
+                        // onChange={(e) => setShipping(e.target.value)}
+                        value={gb.shipping}
                         type='number'
+                        disabled
                     >
                     </TextField>
                     <TextField
@@ -268,9 +274,10 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
                         label="Postage"
                         name='postage'
                         color="secondary"
-                        onChange={(e) => setPostage(e.target.value)}
-                        value={postage}
+                        // onChange={(e) => setPostage(e.target.value)}
+                        value={gb.postage}
                         type='number'
+                        disabled
                     >
                     </TextField>
                     <TextField
@@ -280,9 +287,10 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
                         label="Service Fee"
                         name='fee'
                         color="secondary"
-                        onChange={(e) => setFee(e.target.value)}
-                        value={fee}
+                        // onChange={(e) => setFee(e.target.value)}
+                        value={gb.fee}
                         type='number'
+                        disabled
                     >
                     </TextField>
                     <TextField
@@ -291,10 +299,11 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
                         id='total'
                         label="Total"
                         name='total'
-                        color="secondary"
-                        onChange={(e) => setTotal(e.target.value)}
+                        color="secondary" 
+                        // onChange={(e) => setTotal(e.target.value)}
                         value={total}
                         type='number'
+                        disabled
                     >
                     </TextField>
                     </> :

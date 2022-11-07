@@ -83,7 +83,6 @@ export default function GroupbuyOrderListings({status, setSelectedRows}) {
           sx={{
             boxShadow: 2,
             border: 2,
-            borderColor: 'primary.light',
             '& .MuiDataGrid-cell:hover': {
               color: 'secondary.main',
             },
