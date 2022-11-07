@@ -13,10 +13,13 @@ const groupBuyColumns = [
   { field: 'name', headerName: 'Name', width: 200 },
   { field: 'createDate', headerName: 'Date', width: 200 },
   { field: 'productName', headerName: 'Product', width: 200 },
+  { field: 'productLink', headerName: 'Link', width: 200 },
   { field: 'requestDetails', headerName: 'Description', width: 200 },
+  { field: 'quantity', headerName: 'Quantity', width: 200 },
+  { field: 'price', headerName: 'Price', width: 200 },
+  { field: 'total', headerName: 'Total', width: 200 },
   { field: 'status', headerName: 'Status', width: 200 },
 ]
-
 export default function GroupbuyOrderListings({status, setSelectedRows}) {
     const { id } = useParams()
     const [ row, setRowTest] = React.useState(() => [
@@ -43,8 +46,12 @@ export default function GroupbuyOrderListings({status, setSelectedRows}) {
             rowObj["buyerId"] = results[i]["buyerId"]
             rowObj["name"] = results[i]["buyerDisplayName"]
             rowObj["status"] = results[i]["status"]
+            rowObj["quantity"] = results[i]["quantity"]
+            rowObj["price"] = results[i]["price"]
+            rowObj["productLink"] = results[i]["productUrl"]
             rowObj["productName"] = results[i]["productName"]
             rowObj["requestDetails"] = results[i]["requestDetails"]
+            rowObj["total"] = results[i]["total"]
             rowObj["createDate"] = new Date(results[i]["createdAt"]["seconds"] * 1000)
             groupbuyRow.push(rowObj)
             rowObj = {}
