@@ -11,14 +11,14 @@ import { useDocument } from '../../hooks/useDocument'
 const groupBuyColumns = [
   { field: 'id', headerName: 'ID', width: 70 },
   { field: 'name', headerName: 'Name', width: 200 },
-  { field: 'createDate', headerName: 'Date', width: 200 },
+  { field: 'createDate', headerName: 'Date', width: 285 },
   { field: 'productName', headerName: 'Product', width: 200 },
-  { field: 'productLink', headerName: 'Link', width: 200 },
+  { field: 'productLink', headerName: 'Link', width: 400 },
   { field: 'requestDetails', headerName: 'Description', width: 200 },
-  { field: 'quantity', headerName: 'Quantity', width: 200 },
-  { field: 'price', headerName: 'Price', width: 200 },
-  { field: 'total', headerName: 'Total', width: 200 },
-  { field: 'status', headerName: 'Status', width: 200 },
+  { field: 'quantity', headerName: 'Quantity', width: 100 },
+  { field: 'price', headerName: 'Price', width: 75 },
+  { field: 'total', headerName: 'Total', width: 75 },
+  { field: 'status', headerName: 'Status', width: 150 },
 ]
 export default function GroupbuyOrderListings({status, setSelectedRows}) {
     const { id } = useParams()

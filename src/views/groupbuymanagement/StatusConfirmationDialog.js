@@ -92,7 +92,6 @@ function StatusConfirmationDialog({ show, setShow, status, selectedRows }) {
         <>
             <Dialog
                 open={show}
-                onClose={handleClose}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
                 maxWidth="xl"
@@ -115,10 +114,12 @@ function StatusConfirmationDialog({ show, setShow, status, selectedRows }) {
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
+                    <Button onClick={handleClose} style={{color: "red"}}>Cancel</Button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <Button onClick={updateStatus} autoFocus>
                         Update
                     </Button>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 </DialogActions>
             </Dialog>
         </>
