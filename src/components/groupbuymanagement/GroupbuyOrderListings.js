@@ -14,7 +14,7 @@ const groupBuyColumns = [
   { field: 'status', headerName: 'Status', width: 200 },
 ]
 
-export default function GroupbuyOrderListings() {
+export default function GroupbuyOrderListings({setSelectedRows}) {
   const { user } = useAuthContext()
   const [groupbuys, setGroupbuys] = useState(null)
   const [rowTest, setRowTest] = React.useState(() => [
@@ -83,6 +83,14 @@ export default function GroupbuyOrderListings() {
             },
           }}
           onRowClick={handleRowClick}
+          onSelectionModelChange={(ids) => {
+            const selectedIDs = new Set(ids);
+            const selectedRows = rowTest.filter((row) =>
+              selectedIDs.has(row.id),
+            );
+            setSelectedRows(selectedRows);
+            //console.log(selectedRows)
+          }}
         />
       </div>
     </>
