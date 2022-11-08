@@ -5,12 +5,12 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Button from "@material-ui/core/Button";
+// import Button from "@material-ui/core/Button";
+import CustomButton from "../../components/CustomButton";
 import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 import { useNavigate } from 'react-router-dom';
 import GroupbuyOrderListings from '../../components/groupbuymanagement/GroupbuyOrderListings'
-import GroupbuyManagementCard from '../../components/groupbuymanagement/GroupbuyManagementCard';
 
 
 function TabPanel(props) {
@@ -39,9 +39,9 @@ TabPanel.propTypes = {
     value: PropTypes.number.isRequired,
 };
 
-const ButtonInTabs = ({ className, onClick, children }) => {
-    return <Button className={className} onClick={onClick} children={children} />;
-  };
+// const ButtonInTabs = ({ className, onClick, children }) => {
+//     return <Button className={className} onClick={onClick} children={children} />;
+//   };
 const useStyles = makeStyles(theme => ({
     addButton: {
       color: "white",
@@ -59,8 +59,6 @@ const useStyles = makeStyles(theme => ({
 export default function GroupbuyManagement() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-    const [selectedRows, setSelectedRows] = React.useState([]);
-    const [show, setShow] = React.useState(false);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -69,43 +67,41 @@ export default function GroupbuyManagement() {
     const onLinkClick = (e) => {
         navigate('/createGroupbuy');
     };
-    const onUpdateClick = (e) => {
-        console.log("onUpdateClick");
-        console.log(selectedRows)
-        setShow(true)
-    };
     return (
         <>
             <Navbar />
             <Box sx={{ width: '100%', paddingLeft: '10px', marginTop: '25px' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: '25px' }}>
-                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" textColor='secondary' TabIndicatorProps={{ style: { background: 'purple' } }}>
+                    <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" textColor='secondary' TabIndicatorProps={{ style: { background: 'secondary.main' } }}>
                         <Tab label="As Host" />
                         <Tab label="As Participant" />
-                        <ButtonInTabs
-                            onClick={() => onUpdateClick()}
+                        {/* <ButtonInTabs
+                            onClick={() => ""}
                             className={classes.exportButton}
                         >
                             <AddIcon color="inherit" />
-                            Update Final Amount
-                        </ButtonInTabs>
-                        <ButtonInTabs
+                            Export to excel
+                        </ButtonInTabs> */}
+                        {/* <ButtonInTabs
                             onClick={() => onLinkClick()}
                             className={classes.addButton}
                         >
                             <AddIcon color="inherit" />
                             New Order
-                        </ButtonInTabs>
+                        </ButtonInTabs> */}
+                        
                     </Tabs>
+                    <Box sx={{float : 'right'}}>
+                        <CustomButton onClick={() => onLinkClick()} sx={{marginTop:1, marginRight: 5}} size="small" variant="contained" color = "secondary" >Create Group Buy</CustomButton>
+                    </Box>
                 </Box>
                 <TabPanel value={value} index={0}>
-                    <GroupbuyOrderListings setSelectedRows={setSelectedRows}></GroupbuyOrderListings>
+                    <GroupbuyOrderListings></GroupbuyOrderListings>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     Item Two
                 </TabPanel>
             </Box>
-            <GroupbuyManagementCard show={show} setShow={(bool) => setShow(bool)} selectedRows={selectedRows}/>
         </>
     )
 }

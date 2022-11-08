@@ -33,7 +33,7 @@ export default function GroupbuyListings({ groupbuys }) {
       <div className='product_items'>
         {groupbuys.map((gb) => (
           <div className='box' key={gb.id}>
-            <div className='createdBy' style={{ display: "flex", marginBottom: "5px" }}>
+            {/* <div className='createdBy' style={{ display: "flex", marginBottom: "5px" }}>
               {gb.createdBy.displayName == "Liz" ?
                 <img src={lizProfilePicture} style={{ borderRadius: "50%", width: "30px" }} />
                 : null
@@ -68,7 +68,7 @@ export default function GroupbuyListings({ groupbuys }) {
               }
               &nbsp;&nbsp;&nbsp;
               <h5 style={{ paddingTop: "2px" }}>{gb.createdBy.displayName}</h5>
-            </div>
+            </div> */}
             <div className='img'>
               <Link to={`/groupbuys/${gb.id}`}>
                 <img src={gb.urls[0]} alt='' />

@@ -79,7 +79,7 @@ export default function GroupbuyOrderListings({setSelectedRows}) {
             border: 2,
             borderColor: 'secondary',
             '& .MuiDataGrid-cell:hover': {
-              color: 'primary.main',
+              color: 'secondary.main',
             },
           }}
           onRowClick={handleRowClick}
