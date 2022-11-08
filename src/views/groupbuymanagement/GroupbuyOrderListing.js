@@ -16,6 +16,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import StatusConfirmationDialog from './StatusConfirmationDialog';
+import CustomButton from "../../components/CustomButton";
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -120,12 +121,15 @@ export default function GroupbuyOrderListing() {
     return (
         <>
             <Navbar />
+            <Box sx = {{fontWeight : 600, fontSize : '1.3em', color : "black", paddingLeft: '15px'}}>
+                <Typography variant='h7' gutterBottom>My Orders</Typography>
+            </Box>
             <Box sx={{ width: '100%', paddingLeft: '10px', marginTop: '25px' }}>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider', marginBottom: '25px' }}>
                     <Tabs value={value} onChange={handleChange} aria-label="basic tabs example" textColor='secondary' TabIndicatorProps={{ style: { background: 'purple' } }}>
                         <Tab label="Pending" />
                         <Tab label="Approved" />
-                        <Button
+                        {/* <Button
                             id="demo-customized-button"
                             aria-controls={open ? 'demo-customized-menu' : undefined}
                             aria-haspopup="true"
@@ -137,8 +141,19 @@ export default function GroupbuyOrderListing() {
                             className={classes.addButton}
                         >
                             Update Status
-                        </Button>
+                        </Button> */}
                     </Tabs>
+                    <Box sx={{float : 'right'}}>
+                        <CustomButton id="demo-customized-button" 
+                                        aria-controls={open ? 'demo-customized-menu' : undefined}
+                                        aria-haspopup="true"
+                                        aria-expanded={open ? 'true' : undefined}
+                                        variant="contained"
+                                        disableElevation
+                                        onClick={handleClick}
+                                        endIcon={<KeyboardArrowDownIcon />}
+                       sx={{marginTop:1, marginRight: 5}} size="small" color = "secondary" >Update Status</CustomButton>
+                    </Box>
                 </Box>
                 <StyledMenu
                     id="demo-customized-menu"
