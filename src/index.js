@@ -11,7 +11,7 @@ const theme = createTheme({
     primary: {//light green
       main: '#00ac4f',
       light: '#FFFFFF',
-      veryLight: '#FFFFFF',
+      veryLight: '#EDF6EE',
     },
     secondary: {//dark green
       main: '#00ac4f',

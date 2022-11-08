@@ -227,7 +227,7 @@ export default function RequestChatCard({orderId, showButtons = false, isLast, m
             aria-describedby="alert-dialog-request-rejection"
             onBackdropClick = {() => setIsModalOpen(false)}
         >
-            <Box sx={{backgroundColor : isAccept ? 'primary.main' : 'tertiary.light', display:'flex', flexDirection:'row', maxWidth: '450px'}}>
+            <Box sx={{backgroundColor : isAccept ? 'primary.veryLight' : 'tertiary.light', display:'flex', flexDirection:'row', maxWidth: '450px'}}>
                 <Box sx={{display : 'flex', justifyContent:'center', width: '15%', minWidth: '64px', paddingTop : '16px'}}>
                   <InfoOutlinedIcon fontSize='large'/>
                 </Box>

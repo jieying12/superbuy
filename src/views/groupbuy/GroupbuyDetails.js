@@ -424,12 +424,12 @@ export default function GroupbuyDetails() {
         aria-labelledby="alert-dialog-request-rejection"
         aria-describedby="alert-dialog-request-rejection"
         onBackdropClick={() => setIsModalOpen(false)}>
-        <Box sx={{ width: '600px' }}>
+        <Box sx={{ backgroundColor: 'primary.veryLight', width: '600px' }}>
           <DialogTitle id="submit-request" sx={{ display: "block", marginLeft: "auto", marginRight: "auto" }}>
             Submit Order Request
           </DialogTitle>
 
-          <Box sx={{ width: '550px', display: "block", marginLeft: "auto", marginRight: "auto" }}>
+          <Box sx={{ backgroundColor: 'primary.veryLight', width: '550px', display: "block", marginLeft: "auto", marginRight: "auto" }}>
             <Typography variant='h7' >Product Name(s)*</Typography>
             <TextField
               margin="normal"
