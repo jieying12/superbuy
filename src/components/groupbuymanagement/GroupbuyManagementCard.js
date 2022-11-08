@@ -6,6 +6,10 @@ import { Box } from "@mui/system";
 import { styled } from "@mui/styles";
 import CustomButton from "../CustomButton";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import Button from '@mui/material/Button';
+import Snackbar from '@mui/material/Snackbar';
+import IconButton from '@mui/material/IconButton';
+import CloseIcon from '@mui/icons-material/Close';
 
 import { FeedOutlined } from "@mui/icons-material";
 
@@ -16,29 +20,54 @@ const CardContentNoPadding = styled(CardContent)(`
    }
  `);
 
-export default function GroupbuyManagementCard({show, setShow, selectedRows}) {
+
+
+export default function GroupbuyManagementCard({ show, setShow, selectedRows }) {
 
     //const [isModalOpen, setIsModalOpen] = useState(false)
     const [groupbuyInfo, setGroupbuyInfo] = useState({})
     const [isAccept, setIsAccept] = useState(false)
-    const [price, setPrice] = useState("");
     const [shipping, setShipping] = useState("");
-    const [postage, setPostage] = useState("");
-    const [fee, setFee] = useState("");
-    const [total, setTotal] = useState("");
+    const [open, setOpen] = React.useState(false);
     // const history = useNavigate();
 
+    const handleClick = () => {
+        setOpen(true);
+      };
+    
+    const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+        return;
+    }
+
+    setOpen(false);
+    };
 
     useEffect(() => {
         console.log(selectedRows)
         setGroupbuyInfo(selectedRows[0])
     })
-    const handleClose = () => {
+    const handleCloseDialog = () => {
         setShow(false);
+        setOpen(true);
     };
 
     const declineModalStyle = { backgroundColor: "#FFFAF0", maxWidth: '235px', minHeight: '300px', borderRadius: '16px', flexDirection: 'column', display: 'flex', justifyContent: 'center', paddingBottom: 1, }
-
+    const action = (
+        <React.Fragment>
+          <Button color="secondary" size="small" onClick={handleClose}>
+            UNDO
+          </Button>
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={handleClose}
+          >
+            <CloseIcon fontSize="small" />
+          </IconButton>
+        </React.Fragment>
+      );
     return (
         <>
             <Dialog
@@ -58,7 +87,7 @@ export default function GroupbuyManagementCard({show, setShow, selectedRows}) {
                         </DialogTitle>
                         <DialogContent sx={{ padding: 0 }}>
                             <DialogContentText id="alert-dialog-description">
-                                Group buy Name: {groupbuyInfo != undefined ?groupbuyInfo["title"] :null}
+                                {/* Group buy Name: {groupbuyInfo != undefined ?groupbuyInfo["title"] :null} */}
                             </DialogContentText>
                             <>
                                 {/* <TextField
@@ -124,13 +153,20 @@ export default function GroupbuyManagementCard({show, setShow, selectedRows}) {
                             </>
                         </DialogContent>
                         <DialogActions sx={{ marginBottom: '16px' }}>
-                            <CustomButton variant='contained' onClick={handleClose} sx={{ backgroundColor: '#CFD1D8' }}>Cancel</CustomButton>
-                            <CustomButton variant='contained' onClick={handleClose} sx={{ backgroundColor: '#CFD1D8' }}>Update</CustomButton>
+                            <CustomButton variant='contained' onClick={handleCloseDialog} sx={{ backgroundColor: '#CFD1D8' }}>Cancel</CustomButton>
+                            <CustomButton variant='contained' onClick={handleCloseDialog} sx={{ backgroundColor: '#CFD1D8' }}>Update</CustomButton>
                         </DialogActions>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'center', width: '15%', minWidth: '64px', paddingTop: '16px' }} />
                 </Box>
             </Dialog>
+            <Snackbar
+                open={open}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message="Shipping Fee Updated"
+                action={action}
+            />
         </>
     )
 }
