@@ -11,7 +11,6 @@ import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 import { useNavigate } from 'react-router-dom';
 import GroupbuyOrderListings from '../../components/groupbuymanagement/GroupbuyOrderListings'
-import GroupbuyManagementCard from '../../components/groupbuymanagement/GroupbuyManagementCard';
 
 
 function TabPanel(props) {
@@ -60,8 +59,6 @@ const useStyles = makeStyles(theme => ({
 export default function GroupbuyManagement() {
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
-    const [selectedRows, setSelectedRows] = React.useState([]);
-    const [show, setShow] = React.useState(false);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -69,11 +66,6 @@ export default function GroupbuyManagement() {
 
     const onLinkClick = (e) => {
         navigate('/createGroupbuy');
-    };
-    const onUpdateClick = (e) => {
-        console.log("onUpdateClick");
-        console.log(selectedRows)
-        setShow(true)
     };
     return (
         <>
@@ -104,13 +96,12 @@ export default function GroupbuyManagement() {
                     </Box>
                 </Box>
                 <TabPanel value={value} index={0}>
-                    <GroupbuyOrderListings setSelectedRows={setSelectedRows}></GroupbuyOrderListings>
+                    <GroupbuyOrderListings></GroupbuyOrderListings>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
                     Item Two
                 </TabPanel>
             </Box>
-            <GroupbuyManagementCard show={show} setShow={(bool) => setShow(bool)} selectedRows={selectedRows}/>
         </>
     )
 }

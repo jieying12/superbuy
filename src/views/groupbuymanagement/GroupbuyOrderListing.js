@@ -6,6 +6,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Button from "@material-ui/core/Button";
+import CustomButton from "../../components/CustomButton";
 import { makeStyles } from "@material-ui/core/styles";
 import { useNavigate } from 'react-router-dom';
 import OrderListingsByGroupbuy from '../../components/groupbuymanagement/OrderListingsByGroupbuy'
@@ -16,7 +17,6 @@ import MenuItem from '@mui/material/MenuItem';
 import Divider from '@mui/material/Divider';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import StatusConfirmationDialog from './StatusConfirmationDialog';
-import CustomButton from "../../components/CustomButton";
 
 const StyledMenu = styled((props) => (
     <Menu
@@ -116,6 +116,8 @@ export default function GroupbuyOrderListing() {
         setAnchorEl(null);
         const { myValue } = e.currentTarget.dataset;
         setStatus(myValue)
+        // console.log(myValue)
+        // console.log(selectedRows)
         setShow(true)
     };
     return (
