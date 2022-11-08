@@ -493,7 +493,7 @@ export default function CreateGroupbuyForm() {
                         <CustomButton
                             variant="contained"
                             onClick={() => setOpenTagModal(false)}
-                            sx={{ textTransform: "none", mr: 1, backgroundColor: '#CFD1D8' }}
+                            sx={{ textTransform: "none", mr: 1,}}
                         >
                             Cancel
                         </CustomButton>

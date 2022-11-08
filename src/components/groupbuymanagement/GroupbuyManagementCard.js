@@ -77,7 +77,7 @@ export default function GroupbuyManagementCard({ show, setShow, selectedRows }) 
                 aria-describedby="alert-dialog-request-rejection"
                 onBackdropClick={handleClose}
             >
-                <Box sx={{ backgroundColor: isAccept ? 'primary.main' : 'tertiary.light', display: 'flex', flexDirection: 'row', maxWidth: '450px' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', maxWidth: '450px' }}>
                     <Box sx={{ display: 'flex', justifyContent: 'center', width: '15%', minWidth: '64px', paddingTop: '16px' }}>
                         <InfoOutlinedIcon fontSize='large' />
                     </Box>
@@ -154,7 +154,7 @@ export default function GroupbuyManagementCard({ show, setShow, selectedRows }) 
                         </DialogContent>
                         <DialogActions sx={{ marginBottom: '16px' }}>
                             <CustomButton variant='contained' onClick={handleCloseDialog} sx={{ backgroundColor: '#CFD1D8' }}>Cancel</CustomButton>
-                            <CustomButton variant='contained' onClick={handleCloseDialog} sx={{ backgroundColor: '#CFD1D8' }}>Update</CustomButton>
+                            <CustomButton variant='contained' onClick={handleCloseDialog} sx={{ backgroundColor: '#00AC4F' }}>Update</CustomButton>
                         </DialogActions>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: 'center', width: '15%', minWidth: '64px', paddingTop: '16px' }} />
