@@ -13,7 +13,7 @@ const groupBuyColumns = [
   { field: 'name', headerName: 'Name', width: 200 },
   { field: 'createDate', headerName: 'Date', width: 285 },
   { field: 'productName', headerName: 'Product', width: 200 },
-  { field: 'productLink', headerName: 'Link', width: 400 },
+  { field: 'productLink', headerName: 'Link', width: 325 },
   { field: 'requestDetails', headerName: 'Description', width: 200 },
   { field: 'quantity', headerName: 'Quantity', width: 100 },
   { field: 'price', headerName: 'Price', width: 75 },

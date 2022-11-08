@@ -11,6 +11,7 @@ import AddIcon from "@material-ui/icons/Add";
 import { makeStyles } from "@material-ui/core/styles";
 import { useNavigate } from 'react-router-dom';
 import GroupbuyOrderListings from '../../components/groupbuymanagement/GroupbuyOrderListings'
+import GroupbuyManagementCard from '../../components/groupbuymanagement/GroupbuyManagementCard';
 
 
 function TabPanel(props) {
@@ -57,8 +58,10 @@ const useStyles = makeStyles(theme => ({
       }
   }));
 export default function GroupbuyManagement() {
+    const [show, setShow] = React.useState(false);
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
+    const [selectedRows, setSelectedRows] = React.useState([]);
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
@@ -66,6 +69,11 @@ export default function GroupbuyManagement() {
 
     const onLinkClick = (e) => {
         navigate('/createGroupbuy');
+    };
+    const onUpdateClick = (e) => {
+        console.log("onUpdateClick");
+        console.log(selectedRows)
+        setShow(true)
     };
     return (
         <>
@@ -92,6 +100,7 @@ export default function GroupbuyManagement() {
                         
                     </Tabs>
                     <Box sx={{float : 'right'}}>
+                        <CustomButton onClick={() => onUpdateClick()} sx={{marginTop:1, marginRight: 5}} size="small" variant="contained" color = "secondary" >Update Final Amount</CustomButton>
                         <CustomButton onClick={() => onLinkClick()} sx={{marginTop:1, marginRight: 5}} size="small" variant="contained" color = "secondary" >Create Group Buy</CustomButton>
                     </Box>
                 </Box>
@@ -102,6 +111,7 @@ export default function GroupbuyManagement() {
                     Item Two
                 </TabPanel>
             </Box>
+            <GroupbuyManagementCard show={show} setShow={(bool) => setShow(bool)} selectedRows={selectedRows}/>
         </>
     )
 }
