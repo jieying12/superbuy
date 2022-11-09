@@ -1,5 +1,5 @@
 # Deployed App
-[https://superbuy-app.herokuapp.com/](https://superbuy-app.herokuapp.com/)
+Check out our web application here: [https://superbuy-app.herokuapp.com/](https://superbuy-app.herokuapp.com/)
 
 # Local React App Setup
 
