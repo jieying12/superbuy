@@ -1,7 +1,7 @@
 # Deployed App
 [https://superbuy-app.herokuapp.com/](https://superbuy-app.herokuapp.com/)
 
-# Getting Started with Create React App
+# Local React App Setup
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
