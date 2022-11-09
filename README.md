@@ -1,4 +1,4 @@
-## Deployed App
+# Deployed App
 [https://superbuy-app.herokuapp.com/](https://superbuy-app.herokuapp.com/)
 
 # Getting Started with Create React App
